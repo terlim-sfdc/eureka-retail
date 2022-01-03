@@ -5,7 +5,6 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
-  Dimensions,
   TouchableOpacity,
   Linking,
 } from "react-native";
@@ -15,21 +14,14 @@ import colors from "../../assets/colors/colors";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 import { useFonts } from "expo-font";
-import Monthly from "./Me/Monthly";
-import Weekly from "./Me/Weekly";
-import Yearly from "./Me/Yearly";
 
 // Import components and styles
 import { container, headerWithoutSearch, headerContainer } from "../styles";
 import HeaderText from "../components/HeaderText";
-import SearchBar from "../components/SearchBar";
 
 /* Actual Customer Detail Screen */
 
 const AboutScreen = ({ route, navigation }) => {
-  /* Set up state for search term */
-  const [term, setTerm] = useState("");
-
   if (Platform.OS == "ios") {
     StatusBar.setBarStyle("light-content", true);
   }
@@ -41,9 +33,6 @@ const AboutScreen = ({ route, navigation }) => {
     Bodoni: require("../../assets/fonts/Bodoni.ttf"),
     BodoniBold: require("../../assets/fonts/Bodoni-bold.ttf"),
   });
-
-  // page is weekly, monthly, yearly
-  const [page, setPage] = useState("weekly");
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -91,15 +80,30 @@ const AboutScreen = ({ route, navigation }) => {
           <Text style={styles.content}>
             Express is a minimal and flexible Node.js web application framework
             that provides a robust set of features for web and mobile
-            applications, which makes creating a robust API quick and easy. View
-            sample code on Github here:
+            applications, which makes creating a robust API quick and easy.
           </Text>
+          <Text style={styles.title}>Contributers</Text>
+          <Text style={styles.content}>
+            {"\u2022"} Terence Lim (Developer Evangelist) {"\n"}
+            {"\u2022"} Ji Soo Kim (UX Designer)
+          </Text>
+          <Text style={styles.title}>Source Codes</Text>
           <TouchableOpacity
             onPress={() =>
-              Linking.openURL("https://github.com/terlim-sfdc/superapp-server")
+              Linking.openURL("https://github.com/terlim-sfdc/eureka")
             }
           >
-            <Text>https://github.com/terlim-sfdc/superapp-server</Text>
+            <Text style={styles.links}>{"\u2022"} Eureka Mobile App</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() =>
+              Linking.openURL("https://github.com/terlim-sfdc/eureka-server")
+            }
+          >
+            <Text style={styles.links}>
+              {"\u2022"} Eureka Server (deployed on Heroku)
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -117,6 +121,10 @@ const styles = StyleSheet.create({
   content: {
     fontSize: 15,
     marginBottom: 20,
+  },
+  links: {
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });
 
