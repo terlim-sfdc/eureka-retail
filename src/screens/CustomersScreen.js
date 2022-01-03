@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,11 +10,13 @@ import {
   FlatList,
   Image,
   ScrollView,
+  Alert,
 } from "react-native";
+import axios from "axios";
+
 import { TouchableOpacity } from "react-native-gesture-handler";
 import colors from "../../assets/colors/colors";
 
-import customersData from "../../data/customersData";
 import trendingNowData from "../../data/trendingNowData";
 
 import CustomerCards from "../components/CustomerCards";
@@ -34,11 +36,46 @@ import {
 const CustomersScreen = ({ navigation }) => {
   /* Set up state for search term */
   const [term, setTerm] = useState("");
+  const [customers, setCustomers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setErrorFlag] = useState(false);
 
-  const filteredCustomerList = customersData.filter(
+  // Fetch Customers from Database
+  const url = `https://eureka-mobile-demo.herokuapp.com/customers`;
+  //const url = `http://localhost:3000/customers`;
+  const fetchCustomers = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(url);
+      if (response.status === 200) {
+        setCustomers(response.data);
+        setIsLoading(false);
+        return;
+      } else {
+        throw new Error("Failed to fetch customers from data");
+      }
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        console.log("Customer Data fetching cancelled");
+      } else {
+        console.log(error);
+        setIsLoading(false);
+      }
+    }
+  };
+
+  // load customer data from database
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchCustomers();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  const filteredCustomerList = customers.filter(
     (customer) =>
-      customer.name.toLowerCase().includes(term.toLowerCase()) ||
-      customer.email.toLowerCase().includes(term.toLowerCase())
+      customer.name__c.toLowerCase().includes(term.toLowerCase()) ||
+      customer.email__c.toLowerCase().includes(term.toLowerCase())
   );
 
   if (Platform.OS == "ios") {
@@ -70,39 +107,45 @@ const CustomersScreen = ({ navigation }) => {
 
       {/* Content Body */}
       <TouchableOpacity
-        title="Go to Test Screen here"
+        title="Add new customer"
         style={styles.addCustomerButton}
+        onPress={() => Alert.alert("Feature to be implemented!")}
       >
         <Text style={styles.addCustomerButtonText}>
           + &nbsp;&nbsp;Add new customer
         </Text>
       </TouchableOpacity>
 
-      {/* Customer Cards */}
-      {term == "" && (
-        <CustomerCards
-          navigate={navigation.navigate}
-          customersData={customersData}
-          horizontal={true}
-        />
-      )}
+      {/* View of Customer Cards and Potentially Trending Now */}
+      <View>
+        {/* Customer Cards */}
+        {term == "" && (
+          <CustomerCards
+            navigate={navigation.navigate}
+            customersData={customers}
+            horizontal={true}
+            isLoading={isLoading}
+          />
+        )}
 
-      {/* Customers Cards with search term */}
-      {term != "" && (
-        <CustomerCards
-          navigate={navigation.navigate}
-          customersData={filteredCustomerList}
-          horizontal={false}
-        />
-      )}
+        {/* Customers Cards with search term */}
+        {term != "" && (
+          <CustomerCards
+            navigate={navigation.navigate}
+            customersData={filteredCustomerList}
+            horizontal={false}
+            isLoading={isLoading}
+          />
+        )}
 
-      {/* Trending Now Cards - shows up only when search term is blank */}
-      {term == "" && (
-        <TrendingNowCards
-          navigate={navigation.navigate}
-          trendingNowData={trendingNowData}
-        />
-      )}
+        {/* Trending Now Cards - shows up only when search term is blank */}
+        {term == "" && (
+          <TrendingNowCards
+            navigate={navigation.navigate}
+            trendingNowData={trendingNowData}
+          />
+        )}
+      </View>
     </View>
   );
 };

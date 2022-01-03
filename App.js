@@ -21,11 +21,13 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import colors from "./assets/colors/colors";
 
 import HomeScreen from "./src/screens/HomeScreen";
+import AboutScreen from "./src/screens/AboutScreen";
 import CustomersScreen from "./src/screens/CustomersScreen";
 import MeScreen from "./src/screens/MeScreen";
 import LocateItemScreen from "./src/screens/CustomerDetails/LocateItemScreen";
 import CustomerDetailScreen from "./src/screens/CustomerDetails/CustomerDetailScreen";
 import RecommendedItemsCardsScreen from "./src/screens/CustomerDetails/RecommendedItemsCardsScreen";
+import CustomerUpdateDetailsScreen from "./src/screens/CustomerDetails/CustomerUpdateDetailsScreen";
 
 import { useFonts } from "expo-font";
 
@@ -77,6 +79,15 @@ const TabNavigator = () => {
         options={{
           tabBarIcon: ({ color }) => (
             <FontAwesome name="star-o" size={32} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="About"
+        component={AboutScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="info" size={32} color={color} />
           ),
         }}
       />
@@ -156,6 +167,24 @@ const App = () => {
             component={LocateItemScreen}
             options={{
               title: "Locate Item",
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: colors.theme,
+              },
+              headerTitleStyle: { color: "white" },
+              headerTintColor: colors.white,
+              headerBackTitleVisible: false,
+              cardStyle: {
+                backgroundColor: "#FFFFFF",
+              },
+              headerLeft: () => <View></View>,
+            }}
+          />
+          <Stack.Screen
+            name="CustomerUpdateDetailsScreen"
+            component={CustomerUpdateDetailsScreen}
+            options={{
+              title: "Update Customer Details",
               headerShown: true,
               headerStyle: {
                 backgroundColor: colors.theme,

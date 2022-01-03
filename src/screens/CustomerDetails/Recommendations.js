@@ -13,6 +13,9 @@ import { Surface, useTheme } from "react-native-paper";
 import colors from "../../../assets/colors/colors";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
+// temporarily using sample customer data
+import customersData from "../../../data/customersData";
+
 // import styles and components
 import {
   container,
@@ -43,7 +46,7 @@ const Recommendations = (props) => {
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
-          data={props.customer.recommendedItems}
+          data={customersData[0].recommendedItems}
           keyExtractor={(recommendedItem) => recommendedItem.id}
           renderItem={(recommendedItem) => {
             return (
@@ -51,7 +54,7 @@ const Recommendations = (props) => {
                 onPress={() =>
                   props.navigate("RecommendedItemsCardsScreen", {
                     itemClicked: recommendedItem.item.id,
-                    customerName: props.customer.name,
+                    customerName: props.customer.name__c,
                   })
                 }
               >

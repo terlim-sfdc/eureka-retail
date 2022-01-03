@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   dashboardCardDetails: {
-    fontSize: 33,
+    fontSize: 30,
     alignSelf: "center",
     color: colors.theme,
     fontWeight: "bold",

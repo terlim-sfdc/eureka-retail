@@ -17,6 +17,7 @@ const SearchBar = ({ term, onTermChange }) => {
         defaultValue={"Search"}
         value={term}
         onChangeText={(newTerm) => onTermChange(newTerm)}
+        clearButtonMode="always"
       />
     </View>
   );

@@ -1,13 +1,15 @@
+// Sample Customer Data
+
 const customersData = [
   {
     id: 1,
-    name: "Amanda Raines",
-    phone: "83992742",
-    email: "araines@gmail.com",
-    address: "11 Leonie Hill #12-03, Singapore 239488",
-    joindate: "11 May 2019",
-    membership: "gold",
-    totalspent: "8583.50",
+    name__c: "Amanda Raines",
+    phone__c: "83992742",
+    email_cc: "araines@gmail.com",
+    address__c: "11 Leonie Hill #12-03, Singapore 239488",
+    joindate__c: "11 May 2019",
+    membership__c: "gold",
+    totalspent__c: "8583.50",
     recommendedItems: [
       {
         id: 1,
@@ -31,13 +33,13 @@ const customersData = [
   },
   {
     id: 2,
-    name: "Terence Lim",
-    phone: "91234501",
-    email: "terencelim@outlook.com",
-    address: "11 Leonie Hill #12-03, Singapore 239488",
-    joindate: "11 Jan 2010",
-    membership: "silver",
-    totalspent: "853.50",
+    name__c: "Terence Lim",
+    phone__c: "91234501",
+    email__c: "terencelim@outlook.com",
+    address__c: "11 Leonie Hill #12-03, Singapore 239488",
+    joindate__c: "11 Jan 2010",
+    membership__c: "silver",
+    totalspent__c: "853.50",
     recommendedItems: [
       {
         id: 1,
@@ -61,13 +63,13 @@ const customersData = [
   },
   {
     id: 3,
-    name: "Ji Soo Kim",
-    phone: "83293002",
-    email: "jisoo@gmail.com",
-    address: "11 Leonie Hill #12-03, Singapore 239488",
-    joindate: "11 Jan 2010",
-    membership: "bronze",
-    totalspent: "853.50",
+    name__c: "Ji Soo Kim",
+    phone__c: "83293002",
+    email__c: "jisoo@gmail.com",
+    address__c: "11 Leonie Hill #12-03, Singapore 239488",
+    joindate__c: "11 Jan 2010",
+    membership__c: "bronze",
+    totalspent__c: "853.50",
     recommendedItems: [
       {
         id: 1,
@@ -91,13 +93,13 @@ const customersData = [
   },
   {
     id: 4,
-    name: "Ian Douglas",
-    phone: "93293232",
-    email: "iandouglas@salesforce.com",
-    address: "20 Seald Road, Singapore 239488",
-    joindate: "11 Jan 2013",
-    membership: "gold",
-    totalspent: "1823.30",
+    name__c: "Ian Douglas",
+    phone__c: "93293232",
+    email__c: "iandouglas@salesforce.com",
+    address__c: "20 Seald Road, Singapore 239488",
+    joindate__c: "11 Jan 2013",
+    membership__c: "gold",
+    totalspent__c: "1823.30",
     recommendedItems: [
       {
         id: 1,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,9 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+
+import { useIsFocused } from "@react-navigation/native";
+
 import AppLoading from "expo-app-loading";
 import colors from "../../../assets/colors/colors";
 
@@ -19,6 +22,7 @@ import Feather from "react-native-vector-icons/Feather";
 import { useFonts } from "expo-font";
 import Statistics from "./Statistics";
 import Recommendations from "./Recommendations";
+import axios from "axios";
 
 // import styles and components
 import {
@@ -37,6 +41,61 @@ import HeaderText from "../../components/HeaderText";
 
 const CustomerDetailScreen = ({ route, navigation }) => {
   const { customer } = route.params;
+  const userId = customer.id;
+  const baseURL = `https://eureka-mobile-demo.herokuapp.com/customers`;
+  //const baseURL = `http://localhost:3000/customers`;
+  const customerQueryURL = baseURL + "/" + userId;
+
+  const isFocused = useIsFocused();
+
+  const initialCustomerData = {
+    id: "",
+    name: "",
+    email: "",
+    address: "",
+    phone: "",
+    joindate: "",
+    membership: "",
+    totalspent: "",
+  };
+
+  const [customerDataObject, setCustomerDataObject] =
+    useState(initialCustomerData);
+
+  // load customer data from database
+  const fetchCustomer = async () => {
+    try {
+      const response = await axios.get(customerQueryURL).then((res) => {
+        const customerObj = res.data[0];
+
+        // once data is loaded from api, update the customer object state
+        setCustomerDataObject({
+          id: customerObj.id,
+          name: customerObj.name__c,
+          email: customerObj.email__c,
+          address: customerObj.address__c,
+          phone: customerObj.phone__c,
+          joindate: customerObj.joindate__c,
+          membership: customerObj.membership__c,
+          totalspent: customerObj.totalspent__c,
+        });
+      });
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        console.log("Customer Data fetching cancelled");
+      } else {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchCustomer();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   if (Platform.OS == "ios") {
     StatusBar.setBarStyle("light-content", true);
   }
@@ -51,6 +110,8 @@ const CustomerDetailScreen = ({ route, navigation }) => {
 
   const [index, setIndex] = useState(0);
   const [page, setPage] = useState("recommendations");
+
+  const customerJoinDateTime = new Date(customerDataObject.joindate);
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -76,25 +137,49 @@ const CustomerDetailScreen = ({ route, navigation }) => {
             <Text style={prevPageLink}>Customers</Text>
           </View>
           <View style={headerContainer}>
-            <HeaderText text={customer.name} />
+            <HeaderText text={customerDataObject.name} />
           </View>
         </View>
 
         {/* Content Body */}
         <View style={styles.customerDetailBox}>
-          <View style={styles.customerDetailLineItemBox}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("CustomerUpdateDetailsScreen", {
+                customer: customer,
+              })
+            }
+          >
+            <View
+              style={{
+                position: "absolute",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                width: "100%",
+                padding: 1,
+              }}
+            >
+              <MaterialCommunityIcons
+                name="account-edit"
+                size={40}
+                color={colors.theme}
+              ></MaterialCommunityIcons>
+            </View>
+          </TouchableOpacity>
+
+          <View style={[styles.customerDetailLineItemBox, { width: "90%" }]}>
             <AntDesign
               name="mobile1"
               style={styles.customerDetailLineItemIcons}
             />
             <Text style={styles.customerDetailLineItemContent}>
-              {customer.phone}
+              {customerDataObject.phone}
             </Text>
           </View>
           <View style={styles.customerDetailLineItemBox}>
             <Feather name="mail" style={styles.customerDetailLineItemIcons} />
             <Text style={styles.customerDetailLineItemContent}>
-              {customer.email}
+              {customerDataObject.email}
             </Text>
           </View>
           <View style={styles.customerDetailLineItemBox}>
@@ -105,7 +190,7 @@ const CustomerDetailScreen = ({ route, navigation }) => {
                 { marginBottom: 5 },
               ]}
             >
-              {customer.address}
+              {customerDataObject.address}
             </Text>
           </View>
 
@@ -123,8 +208,9 @@ const CustomerDetailScreen = ({ route, navigation }) => {
               name="card-membership"
               style={styles.customerDetailLineItemIcons}
             />
+
             <Text style={styles.customerDetailLineItemContent}>
-              {customer.membership.toUpperCase()} tier member
+              {customerDataObject.membership.toUpperCase()} tier member
             </Text>
           </View>
           <View style={styles.customerDetailLineItemBox}>
@@ -133,7 +219,12 @@ const CustomerDetailScreen = ({ route, navigation }) => {
               style={styles.customerDetailLineItemIcons}
             />
             <Text style={styles.customerDetailLineItemContent}>
-              Member since {customer.joindate}
+              Member since{" "}
+              {customerJoinDateTime.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
             </Text>
           </View>
           <View style={styles.customerDetailLineItemBox}>
@@ -142,7 +233,7 @@ const CustomerDetailScreen = ({ route, navigation }) => {
               style={styles.customerDetailLineItemIcons}
             />
             <Text style={styles.customerDetailLineItemContent}>
-              Total spending so far: ${customer.totalspent}
+              Total spending so far: ${customerDataObject.totalspent}
             </Text>
           </View>
         </View>

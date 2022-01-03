@@ -85,8 +85,8 @@ export const surfaceInfoCards = {
 
 export const prevPageLinkContentBox = {
   flexDirection: "row",
-  marginTop: 25,
+  marginTop: 35,
   alignItems: "center",
-  padding: 5,
+  padding: 0,
   position: "absolute",
 };
