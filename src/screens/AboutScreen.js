@@ -57,8 +57,8 @@ const AboutScreen = ({ route, navigation }) => {
           <Text style={styles.title}>About This App</Text>
           <Text style={styles.content}>
             This app is built using React Native, showcasing the flexibility of
-            using pro-code tools such as Javascript to build a native mobile
-            app.
+            using pro-code and open source tools such as Javascript to build a
+            native mobile app.
           </Text>
           <Text style={styles.title}>Customer Data</Text>
           <Text style={styles.content}>
@@ -74,7 +74,7 @@ const AboutScreen = ({ route, navigation }) => {
             Salesforce organization and a Heroku Postgres database. Using Heroku
             Connect with Heroku Postgres, developers can build custom
             applications (such as this mobile app) that interacts with
-            Salesforce data easily.
+            Salesforce data easily, securely and seamlessly.
           </Text>
           <Text style={styles.title}>Express Node.js</Text>
           <Text style={styles.content}>
@@ -82,28 +82,22 @@ const AboutScreen = ({ route, navigation }) => {
             that provides a robust set of features for web and mobile
             applications, which makes creating a robust API quick and easy.
           </Text>
-          <Text style={styles.title}>Contributers</Text>
+          <Text style={styles.title}>Eureka Team</Text>
           <Text style={styles.content}>
             {"\u2022"} Terence Lim (Developer Evangelist) {"\n"}
             {"\u2022"} Ji Soo Kim (UX Designer)
           </Text>
-          <Text style={styles.title}>Source Codes</Text>
+          <Text style={styles.title}>
+            Full Details on Implementation and Source Codes:
+          </Text>
           <TouchableOpacity
             onPress={() =>
-              Linking.openURL("https://github.com/terlim-sfdc/eureka")
+              Linking.openURL(
+                "https://milenology.com/blog/reactnativesalesforce"
+              )
             }
           >
-            <Text style={styles.links}>{"\u2022"} Eureka Mobile App</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() =>
-              Linking.openURL("https://github.com/terlim-sfdc/eureka-server")
-            }
-          >
-            <Text style={styles.links}>
-              {"\u2022"} Eureka Server (deployed on Heroku)
-            </Text>
+            <Text style={styles.links}>{"\u2022"}Eureka Mobile App Blog</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
