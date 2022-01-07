@@ -10,8 +10,6 @@ import {
 
 import { sectionSubHeadingBox, sectionSubHeadingText } from "../styles";
 
-import colors from "../../assets/colors/colors";
-
 const TrendingNowCards = (props) => {
   const membershipImage = {
     gold: require("../../assets/images/gold.png"),

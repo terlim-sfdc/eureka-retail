@@ -1,3 +1,4 @@
+// Sample Swipe Card Data for temporary placeholder in Customer Details Screen
 const swipeCardData = [
   {
     id: 1,

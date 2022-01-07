@@ -18,6 +18,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
 import axios from "axios";
+import { apiURL, apiCallHeader, encryptedAuth } from "../../../axiosConfig";
 
 import { useFonts } from "expo-font";
 
@@ -25,13 +26,10 @@ import { useFonts } from "expo-font";
 import { container } from "../../styles";
 
 /* Customer Update Details Screen */
-
 const CustomerUpdateDetailsScreen = ({ route, navigation }) => {
   const { customer } = route.params;
   const userId = customer.id;
-  const baseURL = `https://eureka-mobile-demo.herokuapp.com/customers`;
-  //const baseURL = `http://localhost:3000/customers`;
-  const customerQueryURL = baseURL + "/" + userId;
+  const customerQueryURL = apiURL + "/" + userId;
 
   const initialCustomerData = {
     id: "",
@@ -51,29 +49,23 @@ const CustomerUpdateDetailsScreen = ({ route, navigation }) => {
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
-        const response = await axios.get(customerQueryURL).then((res) => {
-          const customerObj = res.data[0];
+        const response = await axios
+          .get(customerQueryURL, apiCallHeader)
+          .then((res) => {
+            const customerObj = res.data[0];
 
-          // once data is loaded from api, update the customer object state
-          setCustomerDataObject({
-            id: customerObj.id,
-            name: customerObj.name__c,
-            email: customerObj.email__c,
-            address: customerObj.address__c,
-            phone: customerObj.phone__c,
-            joindate: customerObj.joindate__c,
-            membership: customerObj.membership__c,
-            totalspent: customerObj.totalspent__c,
+            // once data is loaded from api, update the customer object state
+            setCustomerDataObject({
+              id: customerObj.id,
+              name: customerObj.name__c,
+              email: customerObj.email__c,
+              address: customerObj.address__c,
+              phone: customerObj.phone__c,
+              joindate: customerObj.joindate__c,
+              membership: customerObj.membership__c,
+              totalspent: customerObj.totalspent__c,
+            });
           });
-        });
-
-        /*
-        if (response.status === 200) {
-          setCustomerObject(response.data[0]);
-          return;
-        } else {
-          throw new Error("Failed to fetch customers from data");
-        }*/
       } catch (error) {
         if (axios.isCancel(error)) {
           console.log("Customer Data fetching cancelled");
@@ -91,9 +83,10 @@ const CustomerUpdateDetailsScreen = ({ route, navigation }) => {
     var data = qs.stringify(customerDataObject);
     var config = {
       method: "post",
-      url: baseURL,
+      url: apiURL,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: encryptedAuth,
       },
       data: data,
     };

@@ -11,6 +11,7 @@ import {
 
 import { sectionSubHeadingBox, sectionSubHeadingText } from "../styles";
 
+// moment library used to format time
 import moment from "moment";
 
 import colors from "../../assets/colors/colors";
@@ -60,7 +61,8 @@ const CustomerCards = (props) => {
           style={{
             alignSelf: "center",
             fontWeight: "bold",
-            marginTop: 50,
+            marginTop: 25,
+            marginBottom: 25,
             fontSize: 20,
           }}
         >

@@ -18,6 +18,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
+import { apiURL, apiCallHeader } from "../../../axiosConfig";
 
 import { useFonts } from "expo-font";
 import Statistics from "./Statistics";
@@ -42,9 +43,7 @@ import HeaderText from "../../components/HeaderText";
 const CustomerDetailScreen = ({ route, navigation }) => {
   const { customer } = route.params;
   const userId = customer.id;
-  const baseURL = `https://eureka-mobile-demo.herokuapp.com/customers`;
-  //const baseURL = `http://localhost:3000/customers`;
-  const customerQueryURL = baseURL + "/" + userId;
+  const customerQueryURL = apiURL + "/" + userId;
 
   const isFocused = useIsFocused();
 
@@ -65,21 +64,23 @@ const CustomerDetailScreen = ({ route, navigation }) => {
   // load customer data from database
   const fetchCustomer = async () => {
     try {
-      const response = await axios.get(customerQueryURL).then((res) => {
-        const customerObj = res.data[0];
+      const response = await axios
+        .get(customerQueryURL, apiCallHeader)
+        .then((res) => {
+          const customerObj = res.data[0];
 
-        // once data is loaded from api, update the customer object state
-        setCustomerDataObject({
-          id: customerObj.id,
-          name: customerObj.name__c,
-          email: customerObj.email__c,
-          address: customerObj.address__c,
-          phone: customerObj.phone__c,
-          joindate: customerObj.joindate__c,
-          membership: customerObj.membership__c,
-          totalspent: customerObj.totalspent__c,
+          // once data is loaded from api, update the customer object state
+          setCustomerDataObject({
+            id: customerObj.id,
+            name: customerObj.name__c,
+            email: customerObj.email__c,
+            address: customerObj.address__c,
+            phone: customerObj.phone__c,
+            joindate: customerObj.joindate__c,
+            membership: customerObj.membership__c,
+            totalspent: customerObj.totalspent__c,
+          });
         });
-      });
     } catch (error) {
       if (axios.isCancel(error)) {
         console.log("Customer Data fetching cancelled");

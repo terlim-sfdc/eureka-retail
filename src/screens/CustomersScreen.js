@@ -25,13 +25,8 @@ import CustomerCards from "../components/CustomerCards";
 import HeaderText from "../components/HeaderText";
 import SearchBar from "../components/SearchBar";
 import TrendingNowCards from "../components/TrendingNowCards";
-import {
-  container,
-  headerWithSearch,
-  headerContainer,
-  sectionSubHeadingBox,
-  sectionSubHeadingText,
-} from "../styles";
+import { container, headerWithSearch, headerContainer } from "../styles";
+import { apiURL, apiCallHeader } from "../../axiosConfig";
 
 const CustomersScreen = ({ navigation }) => {
   /* Set up state for search term */
@@ -41,12 +36,11 @@ const CustomersScreen = ({ navigation }) => {
   const [hasError, setErrorFlag] = useState(false);
 
   // Fetch Customers from Database
-  const url = `https://eureka-mobile-demo.herokuapp.com/customers`;
-  //const url = `http://localhost:3000/customers`;
   const fetchCustomers = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(url);
+      //apiCallHeader contains the authentication using Basic Auth
+      const response = await axios.get(apiURL, apiCallHeader);
       if (response.status === 200) {
         setCustomers(response.data);
         setIsLoading(false);

@@ -1,3 +1,5 @@
+// Sample Swipe Card Data for temporary placeholder in Customers Screen
+
 const trendingNowData = [
   {
     id: 1,

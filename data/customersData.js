@@ -1,4 +1,5 @@
 // Sample Customer Data
+// This is no longer in used as it is connected to live API data from Salesforce.
 
 const customersData = [
   {

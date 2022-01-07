@@ -10,9 +10,6 @@ import {
 } from "react-native";
 import AppLoading from "expo-app-loading";
 import colors from "../../assets/colors/colors";
-
-import AntDesign from "react-native-vector-icons/AntDesign";
-
 import { useFonts } from "expo-font";
 
 // Import components and styles
