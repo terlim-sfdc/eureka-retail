@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Eureka",
-    "slug": "eureka",
+    "name": "Eureka Retail",
+    "slug": "eureka-retail",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/eureka-logo.png",
@@ -29,6 +29,6 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "",
-    "githubUrl": "https://github.com/terlim-sfdc/superapp"
+    "githubUrl": "https://github.com/terlim-sfdc/eureka-retail"
   }
 }
