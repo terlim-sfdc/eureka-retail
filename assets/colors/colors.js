@@ -8,6 +8,7 @@ const colors = {
   theme: "#230881",
   background: "#dce1f6",
   green: "#008000",
+  red: "#ff0000",
 };
 
 export default colors;

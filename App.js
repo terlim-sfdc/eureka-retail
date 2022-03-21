@@ -1,9 +1,3 @@
-/*
-from udemy
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
-*/
-
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
@@ -12,11 +6,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as SplashScreen from "expo-splash-screen";
 
-import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import { Feather, FontAwesome } from "@expo/vector-icons";
-import AntDesign from "react-native-vector-icons/AntDesign";
 
 import colors from "./assets/colors/colors";
 
@@ -28,6 +20,7 @@ import LocateItemScreen from "./src/screens/CustomerDetails/LocateItemScreen";
 import CustomerDetailScreen from "./src/screens/CustomerDetails/CustomerDetailScreen";
 import RecommendedItemsCardsScreen from "./src/screens/CustomerDetails/RecommendedItemsCardsScreen";
 import CustomerUpdateDetailsScreen from "./src/screens/CustomerDetails/CustomerUpdateDetailsScreen";
+import CustomerNewAddScreen from "./src/screens/CustomerDetails/CustomerNewAddScreen";
 
 import { useFonts } from "expo-font";
 
@@ -198,6 +191,24 @@ const App = () => {
               headerLeft: () => <View></View>,
             }}
           />
+          <Stack.Screen
+            name="CustomerNewAddScreen"
+            component={CustomerNewAddScreen}
+            options={{
+              title: "Add New Customer",
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: colors.theme,
+              },
+              headerTitleStyle: { color: "white" },
+              headerTintColor: colors.white,
+              headerBackTitleVisible: false,
+              cardStyle: {
+                backgroundColor: "#FFFFFF",
+              },
+              headerLeft: () => <View></View>,
+            }}
+          />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
@@ -213,22 +224,3 @@ const styles = StyleSheet.create({
 });
 
 export default App;
-
-/*
-This was the way done by udemy
-const navigator = createStackNavigator(
-  {
-    Home: HomeScreen,
-    Test: TestScreen,
-  },
-  {
-    initialRouteName: "Home",
-    defaultNavigationOptions: {
-      title: "eureka",
-    },
-  }
-);
-
-export default createAppContainer(navigator);
-
-*/

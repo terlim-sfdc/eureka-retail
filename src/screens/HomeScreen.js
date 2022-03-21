@@ -99,7 +99,7 @@ const HomeScreen = ({ navigation }) => {
         {/* Dashboard cards */}
         <View style={sectionSubHeadingBox}>
           <Text style={sectionSubHeadingText}>
-            Team Dashboard - This month so far
+            Eureka Dashboard - This month so far
           </Text>
         </View>
         <View style={styles.dashboardCardItemContainer}>

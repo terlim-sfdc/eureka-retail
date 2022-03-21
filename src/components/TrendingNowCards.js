@@ -19,8 +19,8 @@ const TrendingNowCards = (props) => {
   return (
     <>
       <View style={sectionSubHeadingBox}>
-        <Text style={sectionSubHeadingText}>Trending Now</Text>
-        <Text>SEE ALL</Text>
+        <Text style={sectionSubHeadingText}>Trending Items</Text>
+        {/* <Text>SEE ALL</Text> */}
       </View>
 
       <FlatList

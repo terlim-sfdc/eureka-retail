@@ -15,7 +15,6 @@ import {
 import axios from "axios";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
-import colors from "../../assets/colors/colors";
 
 import trendingNowData from "../../data/trendingNowData";
 
@@ -103,7 +102,7 @@ const CustomersScreen = ({ navigation }) => {
       <TouchableOpacity
         title="Add new customer"
         style={styles.addCustomerButton}
-        onPress={() => Alert.alert("Feature to be implemented!")}
+        onPress={() => navigation.navigate("CustomerNewAddScreen")}
       >
         <Text style={styles.addCustomerButtonText}>
           + &nbsp;&nbsp;Add new customer

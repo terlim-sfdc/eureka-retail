@@ -27,7 +27,7 @@ const CustomerCards = (props) => {
     <>
       <View style={sectionSubHeadingBox}>
         <Text style={sectionSubHeadingText}>Your Customers</Text>
-        <Text>SEE ALL</Text>
+        {/* <Text>SEE ALL</Text> */}
       </View>
 
       {/* If it's still loading customer data from api */}
