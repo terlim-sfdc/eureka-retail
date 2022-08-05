@@ -6,6 +6,7 @@ import {
   StatusBar,
   ScrollView,
   Dimensions,
+  Linking,
 } from "react-native";
 import AppLoading from "expo-app-loading";
 import colors from "../../assets/colors/colors";
@@ -25,6 +26,7 @@ import {
   sectionSubHeadingText,
 } from "../styles";
 import SearchBar from "../components/SearchBar";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const HomeScreen = ({ navigation }) => {
   /* Set up state for search term */
@@ -102,31 +104,38 @@ const HomeScreen = ({ navigation }) => {
             Eureka Dashboard - This month so far
           </Text>
         </View>
+
         <View style={styles.dashboardCardItemContainer}>
-          <View style={styles.dashboardCardItem}>
-            <Text style={styles.dashboardCardTitle}>Total Sales Made</Text>
-            <View
-              style={{
-                borderBottomColor: colors.yellow,
-                borderBottomWidth: 2,
-                width: "92%",
-                alignSelf: "center",
-              }}
-            />
-            <View>
-              <Text style={styles.dashboardCardDetails}>$35,780</Text>
+          <TouchableOpacity
+            onPress={() =>
+              Linking.openURL("slack://channel?team=T01GST6QY0G&id=C037USX16TH")
+            }
+          >
+            <View style={styles.dashboardCardItem}>
+              <Text style={styles.dashboardCardTitle}>Total Sales Made</Text>
+              <View
+                style={{
+                  borderBottomColor: colors.yellow,
+                  borderBottomWidth: 2,
+                  width: "92%",
+                  alignSelf: "center",
+                }}
+              />
+              <View>
+                <Text style={styles.dashboardCardDetails}>$35,780</Text>
+              </View>
+              <View>
+                <Text
+                  style={[
+                    styles.dashboardCardSubDetails,
+                    { color: colors.green },
+                  ]}
+                >
+                  +8% from last month
+                </Text>
+              </View>
             </View>
-            <View>
-              <Text
-                style={[
-                  styles.dashboardCardSubDetails,
-                  { color: colors.green },
-                ]}
-              >
-                +8% from last month
-              </Text>
-            </View>
-          </View>
+          </TouchableOpacity>
 
           <View style={styles.dashboardCardItem}>
             <Text style={styles.dashboardCardTitle}>Target Percentage</Text>

@@ -1,4 +1,4 @@
-export const apiURL = `https://eureka-mobile-demo.herokuapp.com/customers`;
+export const apiURL = `https://eureka-fins-admin.herokuapp.com/add-request`;
 
 export const encryptedAuth = "Basic YWRtaW46ZXVyZWth";
 

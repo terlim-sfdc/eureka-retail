@@ -66,7 +66,7 @@ const TabNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Me"
         component={MeScreen}
         options={{
@@ -74,7 +74,7 @@ const TabNavigator = () => {
             <FontAwesome name="star-o" size={32} color={color} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="About"
         component={AboutScreen}
@@ -116,7 +116,7 @@ const App = () => {
             name="TabNavigator"
             component={TabNavigator}
             options={{
-              title: "Eureka Screen",
+              title: "Eureka Retail Screen",
               headerShown: false,
               headerStyle: {
                 backgroundColor: colors.theme,

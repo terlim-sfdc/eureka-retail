@@ -15,6 +15,7 @@ import { useFonts } from "expo-font";
 import { Button } from "react-native-paper";
 
 import slackLogo from "../../assets/images/slack-logo.png";
+import eurekaRetailMap from "../../assets/images/eureka_retail_map.png";
 
 // Import components and styles
 import { container, headerWithoutSearch, headerContainer } from "../styles";
@@ -72,6 +73,17 @@ const AboutScreen = ({ route, navigation }) => {
           >
             Eureka Retail Behind the Scenes
           </Button>
+
+          <Image
+            source={eurekaRetailMap}
+            style={{
+              height: 492,
+              width: 349,
+              alignSelf: "center",
+              overflow: "visible",
+              marginBottom: 35,
+            }}
+          ></Image>
 
           <Text style={styles.title}>Customer Data</Text>
           <Text style={styles.content}>
