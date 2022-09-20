@@ -82,7 +82,7 @@ const CustomersScreen = ({ navigation }) => {
   };
   return (
     // Overall Container Wrapper
-    <View stickyHeaderIndices={[0]} bounces={false} style={container}>
+    <ScrollView stickyHeaderIndices={[0]} bounces={false} style={container}>
       {/* Header */}
       <View style={headerWithSearch}>
         <View style={headerContainer}>
@@ -138,8 +138,32 @@ const CustomersScreen = ({ navigation }) => {
             trendingNowData={trendingNowData}
           />
         )}
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate("CameraScreen")}
+          style={{
+            width: "80%",
+            borderRadius: 4,
+            backgroundColor: "#14274e",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 40,
+            marginTop: 30,
+            alignSelf: "center",
+          }}
+        >
+          <Text
+            style={{
+              color: "#fff",
+              textAlign: "center",
+            }}
+          >
+            Submit Receipt to Return Items
+          </Text>
+        </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

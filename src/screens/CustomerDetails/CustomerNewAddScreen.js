@@ -11,6 +11,9 @@ import {
   Alert,
 } from "react-native";
 import AppLoading from "expo-app-loading";
+
+import * as SplashScreen from "expo-splash-screen";
+
 import colors from "../../../assets/colors/colors";
 
 import AntDesign from "react-native-vector-icons/AntDesign";

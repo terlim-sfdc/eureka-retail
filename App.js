@@ -1,4 +1,7 @@
 import React, { useEffect } from "react";
+import { LogBox } from "react-native";
+LogBox.ignoreAllLogs(); //Ignore all log notifications
+
 import { View, Text, StyleSheet } from "react-native";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -18,6 +21,8 @@ import CustomersScreen from "./src/screens/CustomersScreen";
 import MeScreen from "./src/screens/MeScreen";
 import LocateItemScreen from "./src/screens/CustomerDetails/LocateItemScreen";
 import CustomerDetailScreen from "./src/screens/CustomerDetails/CustomerDetailScreen";
+import CameraScreen from "./src/screens/CameraScreen";
+
 import RecommendedItemsCardsScreen from "./src/screens/CustomerDetails/RecommendedItemsCardsScreen";
 import CustomerUpdateDetailsScreen from "./src/screens/CustomerDetails/CustomerUpdateDetailsScreen";
 import CustomerNewAddScreen from "./src/screens/CustomerDetails/CustomerNewAddScreen";
@@ -131,6 +136,19 @@ const App = () => {
             options={{
               title: "Customer Detail Screen",
               headerShown: false,
+              headerStyle: {
+                backgroundColor: colors.theme,
+              },
+              headerTitleStyle: { color: "white" },
+              headerTintColor: colors.white,
+            }}
+          />
+          <Stack.Screen
+            name="CameraScreen"
+            component={CameraScreen}
+            options={{
+              title: "Return Items Receipt",
+              headerShown: true,
               headerStyle: {
                 backgroundColor: colors.theme,
               },
