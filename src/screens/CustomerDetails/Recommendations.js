@@ -42,39 +42,40 @@ const Recommendations = (props) => {
         </Text>
       </View>
       {/* View Box for Recommended Products Flatlist */}
-      <View style={{ height: 210 }}>
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={customersData[0].recommendedItems}
-          keyExtractor={(recommendedItem) => recommendedItem.id}
-          renderItem={(recommendedItem) => {
-            return (
-              <TouchableOpacity
-                onPress={() =>
-                  props.navigate("RecommendedItemsCardsScreen", {
-                    itemClicked: recommendedItem.item.id,
-                    customerName: props.customer.name__c,
-                  })
-                }
-              >
-                <View style={styles.recommendedItemsView}>
-                  <Image source={recommendedItem.item.source} />
-                  <Text style={styles.recommendedItemsText}>
-                    {recommendedItem.item.title}
-                  </Text>
+
+      {props.recommendations != null && (
+        <View style={{ height: 210 }}>
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            // data={customersData[0].recommendedItems}
+            data={props.recommendations}
+            keyExtractor={(recommendedItem) => recommendedItem.id}
+            renderItem={(recommendedItem) => {
+              return (
+                <View>
+                  <View style={styles.recommendedItemsView}>
+                    <Image
+                      style={styles.imageStyle}
+                      source={{
+                        url: recommendedItem.item.imageUrl,
+                      }}
+                    />
+                    <Text style={styles.recommendedItemsText}>
+                      {recommendedItem.item.name}
+                    </Text>
+                    <Text style={styles.recommendedPriceText}>
+                      ${recommendedItem.item.price}
+                    </Text>
+                  </View>
                 </View>
-                <View style={styles.probabilityContainer}>
-                  <Text style={styles.probabilityText}>
-                    {recommendedItem.item.probability}%
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
-      </View>
-      <TouchableOpacity
+              );
+            }}
+          />
+        </View>
+      )}
+
+      {/* <TouchableOpacity
         onPress={() =>
           props.navigate("RecommendedItemsCardsScreen", {
             customerName: props.customer.name,
@@ -88,12 +89,11 @@ const Recommendations = (props) => {
             Reserve & Locate Products for Customer
           </Text>
         </Surface>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <View style={sectionSubHeadingBox}>
         <Text style={sectionSubHeadingText}>Good to let customer know</Text>
       </View>
-
       <Surface style={[surfaceInfoCards, { flexDirection: "row" }]}>
         <FontAwesome5 name="percentage" style={styles.infoCardIcons} />
         <Text style={{ flex: 7 }}>
@@ -101,7 +101,6 @@ const Recommendations = (props) => {
         </Text>
         <FontAwesome5 name="info-circle" style={[styles.infoCardIcons]} />
       </Surface>
-
       <Surface style={[surfaceInfoCards, { flexDirection: "row" }]}>
         <FontAwesome5 name="gift" style={styles.infoCardIcons} />
         <Text style={{ flex: 7 }}>
@@ -110,7 +109,6 @@ const Recommendations = (props) => {
         </Text>
         <FontAwesome5 name="info-circle" style={styles.infoCardIcons} />
       </Surface>
-
       <Surface style={[surfaceInfoCards, { flexDirection: "row" }]}>
         <FontAwesome5 name="percentage" style={styles.infoCardIcons} />
 
@@ -125,26 +123,24 @@ const Recommendations = (props) => {
 
 const styles = StyleSheet.create({
   recommendedItemsView: {
-    width: 155,
+    width: 150,
     marginHorizontal: 7,
+    height: 150,
+    marginLeft: 20,
   },
   recommendedItemsText: {
     fontSize: 15,
     marginHorizontal: 6,
-  },
-  probabilityContainer: {
-    marginTop: -200,
-    marginLeft: 10,
-    borderWidth: 0,
-    borderRadius: 1000,
-    width: 60,
-    backgroundColor: colors.theme,
-    padding: 5,
-  },
-  probabilityText: {
-    fontSize: 20,
-    color: colors.white,
     fontWeight: "bold",
+  },
+  recommendedPriceText: {
+    fontSize: 15,
+    marginHorizontal: 6,
+  },
+  imageStyle: {
+    height: 150,
+    width: 150,
+    borderRadius: 10,
   },
   infoCards: {
     margin: 5,
@@ -160,6 +156,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: colors.theme,
     flex: 1,
+  },
+  probabilityContainer: {
+    marginTop: -200,
+    marginLeft: 10,
+    borderWidth: 0,
+    borderRadius: 1000,
+    width: 60,
+    backgroundColor: colors.theme,
+    padding: 5,
+  },
+  probabilityText: {
+    fontSize: 20,
+    color: colors.white,
+    fontWeight: "bold",
   },
 });
 

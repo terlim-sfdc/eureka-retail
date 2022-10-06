@@ -37,7 +37,7 @@ const CustomerCards = (props) => {
           style={{
             alignItems: "center",
             justifyContent: "center",
-            height: 160,
+            height: 170,
           }}
         >
           <Text
@@ -50,7 +50,7 @@ const CustomerCards = (props) => {
               style={{ paddingHorizontal: 5 }}
               color={colors.theme}
             ></ActivityIndicator>
-            Loading customer list...
+            Loading...
           </Text>
         </View>
       )}
@@ -71,62 +71,64 @@ const CustomerCards = (props) => {
       )}
 
       {/* Renders the list of customers */}
-      <FlatList
-        horizontal={props.horizontal}
-        showsHorizontalScrollIndicator={false}
-        style={{ alignSelf: "center" }}
-        data={props.customersData}
-        keyExtractor={(item) => item.id}
-        renderItem={(customer) => {
-          return (
-            <TouchableOpacity
-              onPress={() =>
-                props.navigate("CustomerDetailScreen", {
-                  customer: customer.item,
-                })
-              }
-            >
-              <View style={styles.customerItem}>
-                <Text style={styles.customerCardName}>
-                  {customer.item.name__c}
-                </Text>
-                <Text style={styles.customerCardPhone}>
-                  {customer.item.phone__c}
-                </Text>
-                <Text style={styles.customerCardEmail}>
-                  {customer.item.email__c}
-                </Text>
-                <Text style={styles.customerCardMemberSince}>
-                  Member Since {moment(customer.item.joindate__c).format("L")}
-                </Text>
-                <View style={styles.customerMembershipBox}>
-                  <Text style={styles.customerCardMembershipTier}>
-                    {customer.item.membership__c}
+      {!props.isLoading && (
+        <FlatList
+          horizontal={props.horizontal}
+          showsHorizontalScrollIndicator={false}
+          style={{ alignSelf: "center" }}
+          data={props.customersData}
+          keyExtractor={(item) => item.id}
+          renderItem={(customer) => {
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  props.navigate("CustomerDetailScreen", {
+                    customer: customer.item,
+                  })
+                }
+              >
+                <View style={styles.customerItem}>
+                  <Text style={styles.customerCardName}>
+                    {customer.item.name__c}
                   </Text>
-                  {customer.item.membership__c === "gold" && (
-                    <Image
-                      source={membershipImage.gold}
-                      style={styles.customerCardMembershipTierImage}
-                    />
-                  )}
-                  {customer.item.membership__c === "silver" && (
-                    <Image
-                      source={membershipImage.silver}
-                      style={styles.customerCardMembershipTierImage}
-                    />
-                  )}
-                  {customer.item.membership__c === "bronze" && (
-                    <Image
-                      source={membershipImage.bronze}
-                      style={styles.customerCardMembershipTierImage}
-                    />
-                  )}
+                  <Text style={styles.customerCardPhone}>
+                    {customer.item.phone__c}
+                  </Text>
+                  <Text style={styles.customerCardEmail}>
+                    {customer.item.email__c}
+                  </Text>
+                  <Text style={styles.customerCardMemberSince}>
+                    Member Since {moment(customer.item.joindate__c).format("L")}
+                  </Text>
+                  <View style={styles.customerMembershipBox}>
+                    <Text style={styles.customerCardMembershipTier}>
+                      {customer.item.membership__c}
+                    </Text>
+                    {customer.item.membership__c === "gold" && (
+                      <Image
+                        source={membershipImage.gold}
+                        style={styles.customerCardMembershipTierImage}
+                      />
+                    )}
+                    {customer.item.membership__c === "silver" && (
+                      <Image
+                        source={membershipImage.silver}
+                        style={styles.customerCardMembershipTierImage}
+                      />
+                    )}
+                    {customer.item.membership__c === "bronze" && (
+                      <Image
+                        source={membershipImage.bronze}
+                        style={styles.customerCardMembershipTierImage}
+                      />
+                    )}
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
+              </TouchableOpacity>
+            );
+          }}
+        />
+      )}
     </>
   );
 };

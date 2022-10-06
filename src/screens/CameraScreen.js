@@ -23,7 +23,8 @@ import { Camera, CameraType } from "expo-camera";
 
 import { container, headerWithSearch, headerContainer } from "../styles";
 
-const CameraScreen = ({ navigation }) => {
+const CameraScreen = ({ route, navigation }) => {
+  const { selectedReason } = route.params;
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
@@ -50,7 +51,7 @@ const CameraScreen = ({ navigation }) => {
 
     var qs = require("qs");
     var data = qs.stringify({
-      emailContent: "Hello World from Postman",
+      emailContent: "Reason for Return: " + selectedReason,
       imageb64: base64Img,
     });
 
@@ -70,8 +71,10 @@ const CameraScreen = ({ navigation }) => {
       .catch(function (error) {
         console.log(error);
       });
-    Alert.alert("Receipt Submitted");
-    navigation.goBack();
+    Alert.alert(
+      "The receipt is submitted. We will get back to you on the return item status soon."
+    );
+    navigation.pop(2);
   };
 
   if (hasCameraPermission === false) {

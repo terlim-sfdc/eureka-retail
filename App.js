@@ -22,6 +22,8 @@ import MeScreen from "./src/screens/MeScreen";
 import LocateItemScreen from "./src/screens/CustomerDetails/LocateItemScreen";
 import CustomerDetailScreen from "./src/screens/CustomerDetails/CustomerDetailScreen";
 import CameraScreen from "./src/screens/CameraScreen";
+import ItemReturnReasonScreen from "./src/screens/ItemReturnReasonScreen";
+import ReturnHistoryScreen from "./src/screens/ReturnHistoryScreen";
 
 import RecommendedItemsCardsScreen from "./src/screens/CustomerDetails/RecommendedItemsCardsScreen";
 import CustomerUpdateDetailsScreen from "./src/screens/CustomerDetails/CustomerUpdateDetailsScreen";
@@ -147,7 +149,33 @@ const App = () => {
             name="CameraScreen"
             component={CameraScreen}
             options={{
-              title: "Return Items Receipt",
+              title: "Scan Receipt",
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: colors.theme,
+              },
+              headerTitleStyle: { color: "white" },
+              headerTintColor: colors.white,
+            }}
+          />
+          <Stack.Screen
+            name="ItemReturnReasonScreen"
+            component={ItemReturnReasonScreen}
+            options={{
+              title: "Reason for Return",
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: colors.theme,
+              },
+              headerTitleStyle: { color: "white" },
+              headerTintColor: colors.white,
+            }}
+          />
+          <Stack.Screen
+            name="ReturnHistoryScreen"
+            component={ReturnHistoryScreen}
+            options={{
+              title: "Return History",
               headerShown: true,
               headerStyle: {
                 backgroundColor: colors.theme,

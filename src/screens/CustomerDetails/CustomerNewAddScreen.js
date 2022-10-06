@@ -130,6 +130,7 @@ const CustomerNewAddScreen = ({ navigation }) => {
               autoCapitalize="words"
               autoComplete="off"
               value={customerDataObject.name}
+              placeholder="Name"
             ></TextInput>
           </View>
 
@@ -151,6 +152,7 @@ const CustomerNewAddScreen = ({ navigation }) => {
               autoCorrect={false}
               autoComplete="off"
               value={customerDataObject.phone}
+              placeholder="Mobile"
             ></TextInput>
           </View>
           <View style={styles.customerDetailLineItemBox}>
@@ -168,6 +170,7 @@ const CustomerNewAddScreen = ({ navigation }) => {
               autoCorrect={false}
               autoComplete="off"
               value={customerDataObject.email}
+              placeholder="Email"
             ></TextInput>
           </View>
           <View style={styles.customerDetailLineItemBox}>
@@ -187,16 +190,45 @@ const CustomerNewAddScreen = ({ navigation }) => {
               autoCorrect={false}
               autoComplete="off"
               value={customerDataObject.address}
+              placeholder="Address"
             ></TextInput>
           </View>
+          <TouchableOpacity
+            onPress={() => {
+              handleSubmit();
+              navigation.goBack();
+            }}
+            style={{
+              width: "80%",
+              borderRadius: 4,
+              backgroundColor: "#14274e",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              height: 50,
+              marginTop: 40,
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                color: "#fff",
+                textAlign: "center",
+                fontSize: 20,
+              }}
+            >
+              Add Customer
+            </Text>
+          </TouchableOpacity>
         </View>
-        <Button
+
+        {/* <Button
           title="Add Customer"
           onPress={() => {
             handleSubmit();
             navigation.goBack();
           }}
-        ></Button>
+        ></Button> */}
       </ScrollView>
     );
 };

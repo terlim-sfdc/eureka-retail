@@ -18,7 +18,13 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 import trendingNowData from "../../data/trendingNowData";
 
+import colors from "../../assets/colors/colors";
+
 import CustomerCards from "../components/CustomerCards";
+
+import Ionicons from "react-native-vector-icons/Ionicons";
+
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 // Import components and styles
 import HeaderText from "../components/HeaderText";
@@ -99,6 +105,7 @@ const CustomersScreen = ({ navigation }) => {
       </View>
 
       {/* Content Body */}
+
       <TouchableOpacity
         title="Add new customer"
         style={styles.addCustomerButton}
@@ -108,6 +115,60 @@ const CustomersScreen = ({ navigation }) => {
           + &nbsp;&nbsp;Add new customer
         </Text>
       </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        {/* <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => navigation.navigate("CustomerNewAddScreen")}
+        >
+          <Ionicons
+            name="person-add"
+            size={25}
+            style={{
+              color: colors.theme,
+              alignSelf: "center",
+              justifyContent: "center",
+            }}
+          />
+          <Text style={styles.buttonText}>Add Customer</Text>
+        </TouchableOpacity> */}
+
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => navigation.navigate("ItemReturnReasonScreen")}
+        >
+          <MaterialCommunityIcons
+            name="barcode-scan"
+            size={35}
+            style={{
+              color: colors.theme,
+              alignSelf: "center",
+              justifyContent: "center",
+            }}
+          />
+          <Text style={styles.buttonText}>Return Items</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => navigation.navigate("ReturnHistoryScreen")}
+        >
+          <MaterialCommunityIcons
+            name="credit-card-refund"
+            size={35}
+            style={{
+              color: colors.theme,
+              alignSelf: "center",
+              justifyContent: "center",
+            }}
+          />
+          <Text style={styles.buttonText}>Return History</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* View of Customer Cards and Potentially Trending Now */}
       <View>
@@ -138,7 +199,7 @@ const CustomersScreen = ({ navigation }) => {
             trendingNowData={trendingNowData}
           />
         )}
-
+        {/* 
         <TouchableOpacity
           onPress={() => navigation.navigate("CameraScreen")}
           style={{
@@ -161,7 +222,7 @@ const CustomersScreen = ({ navigation }) => {
           >
             Submit Receipt to Return Items
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </ScrollView>
   );
@@ -182,8 +243,24 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 21,
     fontWeight: "bold",
-    letterSpacing: 0.25,
     color: "black",
+  },
+  actionButton: {
+    backgroundColor: colors.white,
+    padding: 10,
+    marginVertical: 10,
+    marginHorizontal: 5,
+    height: 80,
+    width: 180,
+    borderRadius: 10,
+    justifyContent: "space-between",
+  },
+  buttonText: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "black",
+    alignSelf: "center",
+    textAlign: "center",
   },
 });
 
