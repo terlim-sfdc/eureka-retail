@@ -12,7 +12,7 @@ import {
 
 import { useIsFocused } from "@react-navigation/native";
 
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
 import colors from "../../../assets/colors/colors";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -43,6 +43,9 @@ import {
   prevPageLink,
 } from "../../styles";
 import HeaderText from "../../components/HeaderText";
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 /* Actual Customer Detail Screen */
 
@@ -149,235 +152,219 @@ const CustomerDetailScreen = ({ route, navigation }) => {
     StatusBar.setBarStyle("light-content", true);
   }
 
-  {
-    /* load custom fonts */
-  }
-  let [fontsLoaded] = useFonts({
-    Bodoni: require("../../../assets/fonts/Bodoni.ttf"),
-    BodoniBold: require("../../../assets/fonts/Bodoni-bold.ttf"),
-  });
-
   const [index, setIndex] = useState(0);
   const [page, setPage] = useState("recommendations");
 
   const customerJoinDateTime = new Date(customerDataObject.joindate);
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  } else
-    return (
-      // Overall Container Wrapper
+  return (
+    // Overall Container Wrapper
 
-      <ScrollView
-        style={container}
-        showsVerticalScrollIndicator={false}
-        stickyHeaderIndices={[0]}
-        bounces={false}
-      >
-        {/* Header */}
-        <View style={headerWithoutSearch}>
-          <View style={prevPageLinkContentBox}>
-            <Ionicons
-              name="chevron-back"
-              size={32}
-              color={colors.white}
-              title="Go back"
-              onPress={() => navigation.goBack()}
-            />
-            <Text style={prevPageLink}>Customers</Text>
-          </View>
-          <View style={headerContainer}>
-            <HeaderText text={customerDataObject.name} />
-          </View>
+    <ScrollView
+      style={container}
+      showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={[0]}
+      bounces={false}
+    >
+      {/* Header */}
+      <View style={headerWithoutSearch}>
+        <View style={prevPageLinkContentBox}>
+          <Ionicons
+            name="chevron-back"
+            size={32}
+            color={colors.white}
+            title="Go back"
+            onPress={() => navigation.goBack()}
+          />
+          <Text style={prevPageLink}>Customers</Text>
         </View>
+        <View style={headerContainer}>
+          <HeaderText text={customerDataObject.name} />
+        </View>
+      </View>
 
-        {/* Activity Indicator if page is still loading */}
-        {(isCustomerDataLoading || isRecommendationDataLoading) && (
-          <View
+      {/* Activity Indicator if page is still loading */}
+      {(isCustomerDataLoading || isRecommendationDataLoading) && (
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            height: Dimensions.get("window").height * 0.8,
+          }}
+        >
+          <Text
             style={{
-              alignItems: "center",
-              justifyContent: "center",
-              height: Dimensions.get("window").height * 0.8,
+              fontWeight: "bold",
+              fontSize: 20,
             }}
           >
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 20,
-              }}
+            <ActivityIndicator
+              style={{ paddingHorizontal: 5, paddingVertical: 5 }}
+              color={colors.theme}
+            ></ActivityIndicator>
+            Loading...
+          </Text>
+        </View>
+      )}
+
+      {/* Content Body */}
+      {!isCustomerDataLoading && !isRecommendationDataLoading && (
+        <View style={styles.customerDetailBox}>
+          <View>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("CustomerUpdateDetailsScreen", {
+                  customer: customer,
+                })
+              }
             >
-              <ActivityIndicator
-                style={{ paddingHorizontal: 5, paddingVertical: 5 }}
-                color={colors.theme}
-              ></ActivityIndicator>
-              Loading...
-            </Text>
-          </View>
-        )}
-
-        {/* Content Body */}
-        {!isCustomerDataLoading && !isRecommendationDataLoading && (
-          <View style={styles.customerDetailBox}>
-            <View>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("CustomerUpdateDetailsScreen", {
-                    customer: customer,
-                  })
-                }
-              >
-                <View
-                  style={{
-                    position: "absolute",
-                    flexDirection: "row",
-                    width: "10%",
-                    padding: 1,
-                    alignSelf: "flex-end",
-                  }}
-                >
-                  <MaterialCommunityIcons
-                    name="account-edit"
-                    size={40}
-                    color={colors.theme}
-                  ></MaterialCommunityIcons>
-                </View>
-              </TouchableOpacity>
-
-              <View
-                style={[styles.customerDetailLineItemBox, { width: "90%" }]}
-              >
-                <AntDesign
-                  name="mobile1"
-                  style={styles.customerDetailLineItemIcons}
-                />
-                <Text style={styles.customerDetailLineItemContent}>
-                  {customerDataObject.phone}
-                </Text>
-              </View>
-
-              <View style={styles.customerDetailLineItemBox}>
-                <Feather
-                  name="mail"
-                  style={styles.customerDetailLineItemIcons}
-                />
-                <Text style={styles.customerDetailLineItemContent}>
-                  {customerDataObject.email}
-                </Text>
-              </View>
-              <View style={styles.customerDetailLineItemBox}>
-                <AntDesign
-                  name="home"
-                  style={styles.customerDetailLineItemIcons}
-                />
-                <Text
-                  style={[
-                    styles.customerDetailLineItemContent,
-                    { marginBottom: 5 },
-                  ]}
-                >
-                  {customerDataObject.address}
-                </Text>
-              </View>
-
-              {/* {Line seperator} */}
               <View
                 style={{
-                  borderBottomColor: "grey",
-                  borderBottomWidth: 1,
-                  width: "92%",
-                  alignSelf: "center",
+                  position: "absolute",
+                  flexDirection: "row",
+                  width: "10%",
+                  padding: 1,
+                  alignSelf: "flex-end",
                 }}
-              />
-              <View style={styles.customerDetailLineItemBox}>
-                <MaterialIcons
-                  name="card-membership"
-                  style={styles.customerDetailLineItemIcons}
-                />
-
-                <Text style={styles.customerDetailLineItemContent}>
-                  {customerDataObject.membership.toUpperCase()} tier member
-                </Text>
-              </View>
-              <View style={styles.customerDetailLineItemBox}>
+              >
                 <MaterialCommunityIcons
-                  name="account-clock"
-                  style={styles.customerDetailLineItemIcons}
-                />
-                <Text style={styles.customerDetailLineItemContent}>
-                  Member since{" "}
-                  {customerJoinDateTime.toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </Text>
+                  name="account-edit"
+                  size={40}
+                  color={colors.theme}
+                ></MaterialCommunityIcons>
               </View>
-              <View style={styles.customerDetailLineItemBox}>
-                <Feather
-                  name="dollar-sign"
-                  style={styles.customerDetailLineItemIcons}
-                />
-                <Text style={styles.customerDetailLineItemContent}>
-                  Total spending so far: ${customerDataObject.totalspent}
-                </Text>
-              </View>
+            </TouchableOpacity>
+
+            <View style={[styles.customerDetailLineItemBox, { width: "90%" }]}>
+              <AntDesign
+                name="mobile1"
+                style={styles.customerDetailLineItemIcons}
+              />
+              <Text style={styles.customerDetailLineItemContent}>
+                {customerDataObject.phone}
+              </Text>
             </View>
+
+            <View style={styles.customerDetailLineItemBox}>
+              <Feather name="mail" style={styles.customerDetailLineItemIcons} />
+              <Text style={styles.customerDetailLineItemContent}>
+                {customerDataObject.email}
+              </Text>
+            </View>
+            <View style={styles.customerDetailLineItemBox}>
+              <AntDesign
+                name="home"
+                style={styles.customerDetailLineItemIcons}
+              />
+              <Text
+                style={[
+                  styles.customerDetailLineItemContent,
+                  { marginBottom: 5 },
+                ]}
+              >
+                {customerDataObject.address}
+              </Text>
+            </View>
+
+            {/* {Line seperator} */}
+            <View
+              style={{
+                borderBottomColor: "grey",
+                borderBottomWidth: 1,
+                width: "92%",
+                alignSelf: "center",
+              }}
+            />
+            <View style={styles.customerDetailLineItemBox}>
+              <MaterialIcons
+                name="card-membership"
+                style={styles.customerDetailLineItemIcons}
+              />
+
+              <Text style={styles.customerDetailLineItemContent}>
+                {customerDataObject.membership.toUpperCase()} tier member
+              </Text>
+            </View>
+            <View style={styles.customerDetailLineItemBox}>
+              <MaterialCommunityIcons
+                name="account-clock"
+                style={styles.customerDetailLineItemIcons}
+              />
+              <Text style={styles.customerDetailLineItemContent}>
+                Member since{" "}
+                {customerJoinDateTime.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </Text>
+            </View>
+            <View style={styles.customerDetailLineItemBox}>
+              <Feather
+                name="dollar-sign"
+                style={styles.customerDetailLineItemIcons}
+              />
+              <Text style={styles.customerDetailLineItemContent}>
+                Total spending so far: ${customerDataObject.totalspent}
+              </Text>
+            </View>
+          </View>
+        </View>
+      )}
+
+      {/* View for Recommendation and Statistics buttons */}
+      {page === "recommendations" &&
+        !isCustomerDataLoading &&
+        !isRecommendationDataLoading && (
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 15,
+            }}
+          >
+            <TouchableOpacity
+              style={[
+                page === "recommendations"
+                  ? activeSubTabButton
+                  : inactiveSubTabButton,
+              ]}
+              onPress={() => {
+                setPage("recommendations");
+              }}
+            >
+              <Text style={subTabText}>Recommendations</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                page === "statistics"
+                  ? activeSubTabButton
+                  : inactiveSubTabButton,
+              ]}
+              onPress={() => {
+                setPage("statistics");
+              }}
+            >
+              <Text style={subTabText}>Statistics</Text>
+            </TouchableOpacity>
           </View>
         )}
 
-        {/* View for Recommendation and Statistics buttons */}
-        {page === "recommendations" &&
-          !isCustomerDataLoading &&
-          !isRecommendationDataLoading && (
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginTop: 15,
-              }}
-            >
-              <TouchableOpacity
-                style={[
-                  page === "recommendations"
-                    ? activeSubTabButton
-                    : inactiveSubTabButton,
-                ]}
-                onPress={() => {
-                  setPage("recommendations");
-                }}
-              >
-                <Text style={subTabText}>Recommendations</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[
-                  page === "statistics"
-                    ? activeSubTabButton
-                    : inactiveSubTabButton,
-                ]}
-                onPress={() => {
-                  setPage("statistics");
-                }}
-              >
-                <Text style={subTabText}>Statistics</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-
-        {/* Show page based on button pressed and pass down customer, recommendation data and is recommendation loading data via prop */}
-        {page === "recommendations" &&
-          !isCustomerDataLoading &&
-          !isRecommendationDataLoading && (
-            <Recommendations
-              navigate={navigation.navigate}
-              customer={customer}
-              recommendations={recommendationsDataObject}
-              isRecommendationDataLoading={isRecommendationDataLoading}
-            />
-          )}
-        {page === "statistics" && <Statistics customer />}
-      </ScrollView>
-    );
+      {/* Show page based on button pressed and pass down customer, recommendation data and is recommendation loading data via prop */}
+      {page === "recommendations" &&
+        !isCustomerDataLoading &&
+        !isRecommendationDataLoading && (
+          <Recommendations
+            navigate={navigation.navigate}
+            customer={customer}
+            recommendations={recommendationsDataObject}
+            isRecommendationDataLoading={isRecommendationDataLoading}
+          />
+        )}
+      {page === "statistics" && <Statistics customer />}
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({

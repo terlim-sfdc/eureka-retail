@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { LogBox } from "react-native";
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
@@ -25,9 +25,10 @@ import CameraScreen from "./src/screens/CameraScreen";
 import ItemReturnReasonScreen from "./src/screens/ItemReturnReasonScreen";
 import ReturnHistoryScreen from "./src/screens/ReturnHistoryScreen";
 
-import RecommendedItemsCardsScreen from "./src/screens/CustomerDetails/RecommendedItemsCardsScreen";
 import CustomerUpdateDetailsScreen from "./src/screens/CustomerDetails/CustomerUpdateDetailsScreen";
 import CustomerNewAddScreen from "./src/screens/CustomerDetails/CustomerNewAddScreen";
+
+import * as Font from "expo-font";
 
 import { useFonts } from "expo-font";
 
@@ -103,18 +104,32 @@ const App = () => {
   //   }, 200);
   // }
 
-  let [fontsLoaded] = useFonts({
-    Bodoni: require("./assets/fonts/Bodoni.ttf"),
-    BodoniBold: require("./assets/fonts/Bodoni-bold.ttf"),
-  });
+  const [fontLoaded, setFontLoaded] = useState(false);
 
+  // load fonts
   useEffect(() => {
-    // Hides native splash screen after 1s
-    setTimeout(async () => {
-      await SplashScreen.hideAsync();
-    }, 200);
+    const loadFonts = async () => {
+      await Promise.all([
+        Font.loadAsync({
+          BodoniBold: require("./assets/fonts/Bodoni-bold.ttf"),
+          Bodoni: require("./assets/fonts/Bodoni.ttf"),
+        }),
+      ]);
+      setFontLoaded(true);
+    };
+    loadFonts();
   }, []);
 
+  useEffect(() => {
+    // Hides native splash screen after designated time
+    setTimeout(async () => {
+      await SplashScreen.hideAsync();
+    }, 300);
+  }, []);
+
+  if (!fontLoaded) {
+    return null;
+  }
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -177,21 +192,6 @@ const App = () => {
             options={{
               title: "Return History",
               headerShown: true,
-              headerStyle: {
-                backgroundColor: colors.theme,
-              },
-              headerTitleStyle: { color: "white" },
-              headerTintColor: colors.white,
-            }}
-          />
-          <Stack.Screen
-            name="RecommendedItemsCardsScreen"
-            // Default card shows first item
-            initialParams={{ itemClicked: 1 }}
-            component={RecommendedItemsCardsScreen}
-            options={{
-              title: "Recommended Items Cards Screen",
-              headerShown: false,
               headerStyle: {
                 backgroundColor: colors.theme,
               },

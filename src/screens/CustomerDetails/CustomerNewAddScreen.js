@@ -10,8 +10,6 @@ import {
   Button,
   Alert,
 } from "react-native";
-import AppLoading from "expo-app-loading";
-
 import * as SplashScreen from "expo-splash-screen";
 
 import colors from "../../../assets/colors/colors";
@@ -25,6 +23,9 @@ import { useFonts } from "expo-font";
 
 // import styles and components
 import { container } from "../../styles";
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 /* Customer Update Details Screen */
 const CustomerNewAddScreen = ({ navigation }) => {
@@ -81,156 +82,145 @@ const CustomerNewAddScreen = ({ navigation }) => {
     StatusBar.setBarStyle("light-content", true);
   }
 
-  {
-    /* load custom fonts */
-  }
-  let [fontsLoaded] = useFonts({
-    Bodoni: require("../../../assets/fonts/Bodoni.ttf"),
-    BodoniBold: require("../../../assets/fonts/Bodoni-bold.ttf"),
-  });
-
   const customerJoinDateTime = new Date(customerDataObject.joindate);
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  } else
-    return (
-      // Overall Container Wrapper
-      <ScrollView
-        style={container}
-        showsVerticalScrollIndicator={false}
-        stickyHeaderIndices={[0]}
-        bounces={false}
-      >
-        <View style={{ alignItems: "flex-end" }}>
-          <AntDesign
-            name="closecircleo"
-            size={25}
-            color={colors.theme}
-            style={{ padding: 10 }}
-            onPress={() => navigation.goBack()}
-          />
+  return (
+    // Overall Container Wrapper
+    <ScrollView
+      style={container}
+      showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={[0]}
+      bounces={false}
+    >
+      <View style={{ alignItems: "flex-end" }}>
+        <AntDesign
+          name="closecircleo"
+          size={25}
+          color={colors.theme}
+          style={{ padding: 10 }}
+          onPress={() => navigation.goBack()}
+        />
+      </View>
+
+      {/* Content Body */}
+      <View style={styles.customerDetailBox}>
+        <View style={styles.customerDetailLineItemBox}>
+          <AntDesign name="user" style={styles.customerDetailLineItemIcons} />
+          <TextInput
+            style={styles.customerUpdateInputBox}
+            onChangeText={(updatedName) =>
+              setCustomerDataObject({
+                ...customerDataObject,
+                name: updatedName,
+              })
+            }
+            name="name"
+            type="text"
+            autoCorrect={false}
+            autoCapitalize="words"
+            autoComplete="off"
+            value={customerDataObject.name}
+            placeholder="Name"
+          ></TextInput>
         </View>
 
-        {/* Content Body */}
-        <View style={styles.customerDetailBox}>
-          <View style={styles.customerDetailLineItemBox}>
-            <AntDesign name="user" style={styles.customerDetailLineItemIcons} />
-            <TextInput
-              style={styles.customerUpdateInputBox}
-              onChangeText={(updatedName) =>
-                setCustomerDataObject({
-                  ...customerDataObject,
-                  name: updatedName,
-                })
-              }
-              name="name"
-              type="text"
-              autoCorrect={false}
-              autoCapitalize="words"
-              autoComplete="off"
-              value={customerDataObject.name}
-              placeholder="Name"
-            ></TextInput>
-          </View>
+        <View style={styles.customerDetailLineItemBox}>
+          <AntDesign
+            name="mobile1"
+            style={styles.customerDetailLineItemIcons}
+          />
+          <TextInput
+            style={styles.customerUpdateInputBox}
+            onChangeText={(updatedPhone) =>
+              setCustomerDataObject({
+                ...customerDataObject,
+                phone: updatedPhone,
+              })
+            }
+            name="phone"
+            keyboardType="numeric"
+            autoCorrect={false}
+            autoComplete="off"
+            value={customerDataObject.phone}
+            placeholder="Mobile"
+          ></TextInput>
+        </View>
+        <View style={styles.customerDetailLineItemBox}>
+          <Feather name="mail" style={styles.customerDetailLineItemIcons} />
 
-          <View style={styles.customerDetailLineItemBox}>
-            <AntDesign
-              name="mobile1"
-              style={styles.customerDetailLineItemIcons}
-            />
-            <TextInput
-              style={styles.customerUpdateInputBox}
-              onChangeText={(updatedPhone) =>
-                setCustomerDataObject({
-                  ...customerDataObject,
-                  phone: updatedPhone,
-                })
-              }
-              name="phone"
-              keyboardType="numeric"
-              autoCorrect={false}
-              autoComplete="off"
-              value={customerDataObject.phone}
-              placeholder="Mobile"
-            ></TextInput>
-          </View>
-          <View style={styles.customerDetailLineItemBox}>
-            <Feather name="mail" style={styles.customerDetailLineItemIcons} />
+          <TextInput
+            style={styles.customerUpdateInputBox}
+            onChangeText={(updatedEmail) =>
+              setCustomerDataObject({
+                ...customerDataObject,
+                email: updatedEmail,
+              })
+            }
+            name="email"
+            autoCorrect={false}
+            autoComplete="off"
+            value={customerDataObject.email}
+            placeholder="Email"
+          ></TextInput>
+        </View>
+        <View style={styles.customerDetailLineItemBox}>
+          <AntDesign name="home" style={styles.customerDetailLineItemIcons} />
 
-            <TextInput
-              style={styles.customerUpdateInputBox}
-              onChangeText={(updatedEmail) =>
-                setCustomerDataObject({
-                  ...customerDataObject,
-                  email: updatedEmail,
-                })
-              }
-              name="email"
-              autoCorrect={false}
-              autoComplete="off"
-              value={customerDataObject.email}
-              placeholder="Email"
-            ></TextInput>
-          </View>
-          <View style={styles.customerDetailLineItemBox}>
-            <AntDesign name="home" style={styles.customerDetailLineItemIcons} />
-
-            <TextInput
-              style={[styles.customerUpdateInputBox, { height: 80 }]}
-              multiline={true}
-              numberofLines={5}
-              onChangeText={(updatedAddress) =>
-                setCustomerDataObject({
-                  ...customerDataObject,
-                  address: updatedAddress,
-                })
-              }
-              name="address"
-              autoCorrect={false}
-              autoComplete="off"
-              value={customerDataObject.address}
-              placeholder="Address"
-            ></TextInput>
-          </View>
-          <TouchableOpacity
-            onPress={() => {
-              handleSubmit();
-              navigation.goBack();
-            }}
+          <TextInput
+            style={[styles.customerUpdateInputBox, { height: 80 }]}
+            multiline={true}
+            numberofLines={5}
+            onChangeText={(updatedAddress) =>
+              setCustomerDataObject({
+                ...customerDataObject,
+                address: updatedAddress,
+              })
+            }
+            name="address"
+            autoCorrect={false}
+            autoComplete="off"
+            value={customerDataObject.address}
+            placeholder="Address"
+          ></TextInput>
+        </View>
+        <TouchableOpacity
+          onPress={() => {
+            handleSubmit();
+            navigation.goBack();
+          }}
+          style={{
+            width: "80%",
+            borderRadius: 4,
+            backgroundColor: "#14274e",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 50,
+            marginTop: 40,
+            alignSelf: "center",
+          }}
+        >
+          <Text
             style={{
-              width: "80%",
-              borderRadius: 4,
-              backgroundColor: "#14274e",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              height: 50,
-              marginTop: 40,
-              alignSelf: "center",
+              color: "#fff",
+              textAlign: "center",
+              fontSize: 20,
             }}
           >
-            <Text
-              style={{
-                color: "#fff",
-                textAlign: "center",
-                fontSize: 20,
-              }}
-            >
-              Add Customer
-            </Text>
-          </TouchableOpacity>
-        </View>
+            Add Customer
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-        {/* <Button
+      {/* <Button
           title="Add Customer"
           onPress={() => {
             handleSubmit();
             navigation.goBack();
           }}
         ></Button> */}
-      </ScrollView>
-    );
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({

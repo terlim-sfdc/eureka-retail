@@ -10,7 +10,7 @@ import {
   Button,
   Alert,
 } from "react-native";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
 import colors from "../../../assets/colors/colors";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -24,6 +24,9 @@ import { useFonts } from "expo-font";
 
 // import styles and components
 import { container } from "../../styles";
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 /* Customer Update Details Screen */
 const CustomerUpdateDetailsScreen = ({ route, navigation }) => {
@@ -129,191 +132,180 @@ const CustomerUpdateDetailsScreen = ({ route, navigation }) => {
     StatusBar.setBarStyle("light-content", true);
   }
 
-  {
-    /* load custom fonts */
-  }
-  let [fontsLoaded] = useFonts({
-    Bodoni: require("../../../assets/fonts/Bodoni.ttf"),
-    BodoniBold: require("../../../assets/fonts/Bodoni-bold.ttf"),
-  });
-
   const customerJoinDateTime = new Date(customerDataObject.joindate);
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  } else
-    return (
-      // Overall Container Wrapper
-      <ScrollView
-        style={container}
-        showsVerticalScrollIndicator={false}
-        stickyHeaderIndices={[0]}
-        bounces={false}
-      >
-        <View style={{ alignItems: "flex-end" }}>
+  return (
+    // Overall Container Wrapper
+    <ScrollView
+      style={container}
+      showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={[0]}
+      bounces={false}
+    >
+      <View style={{ alignItems: "flex-end" }}>
+        <AntDesign
+          name="closecircleo"
+          size={25}
+          color={colors.theme}
+          style={{ padding: 10 }}
+          onPress={() => navigation.goBack()}
+        />
+      </View>
+      {/* Content Body */}
+      <View style={styles.customerDetailBox}>
+        <View style={styles.customerDetailLineItemBox}>
+          <AntDesign name="user" style={styles.customerDetailLineItemIcons} />
+          <TextInput
+            style={styles.customerUpdateInputBox}
+            onChangeText={(updatedName) =>
+              setCustomerDataObject({
+                ...customerDataObject,
+                name: updatedName,
+              })
+            }
+            name="name"
+            type="text"
+            autoCorrect={false}
+            autoCapitalize="words"
+            autoComplete="off"
+            value={customerDataObject.name}
+          ></TextInput>
+        </View>
+
+        <View style={styles.customerDetailLineItemBox}>
           <AntDesign
-            name="closecircleo"
-            size={25}
-            color={colors.theme}
-            style={{ padding: 10 }}
-            onPress={() => navigation.goBack()}
+            name="mobile1"
+            style={styles.customerDetailLineItemIcons}
           />
+          <TextInput
+            style={styles.customerUpdateInputBox}
+            onChangeText={(updatedPhone) =>
+              setCustomerDataObject({
+                ...customerDataObject,
+                phone: updatedPhone,
+              })
+            }
+            name="phone"
+            keyboardType="numeric"
+            autoCorrect={false}
+            autoComplete="off"
+            value={customerDataObject.phone}
+          ></TextInput>
         </View>
-        {/* Content Body */}
-        <View style={styles.customerDetailBox}>
-          <View style={styles.customerDetailLineItemBox}>
-            <AntDesign name="user" style={styles.customerDetailLineItemIcons} />
-            <TextInput
-              style={styles.customerUpdateInputBox}
-              onChangeText={(updatedName) =>
-                setCustomerDataObject({
-                  ...customerDataObject,
-                  name: updatedName,
-                })
-              }
-              name="name"
-              type="text"
-              autoCorrect={false}
-              autoCapitalize="words"
-              autoComplete="off"
-              value={customerDataObject.name}
-            ></TextInput>
-          </View>
+        <View style={styles.customerDetailLineItemBox}>
+          <Feather name="mail" style={styles.customerDetailLineItemIcons} />
 
-          <View style={styles.customerDetailLineItemBox}>
-            <AntDesign
-              name="mobile1"
-              style={styles.customerDetailLineItemIcons}
-            />
-            <TextInput
-              style={styles.customerUpdateInputBox}
-              onChangeText={(updatedPhone) =>
-                setCustomerDataObject({
-                  ...customerDataObject,
-                  phone: updatedPhone,
-                })
-              }
-              name="phone"
-              keyboardType="numeric"
-              autoCorrect={false}
-              autoComplete="off"
-              value={customerDataObject.phone}
-            ></TextInput>
-          </View>
-          <View style={styles.customerDetailLineItemBox}>
-            <Feather name="mail" style={styles.customerDetailLineItemIcons} />
+          <TextInput
+            style={styles.customerUpdateInputBox}
+            onChangeText={(updatedEmail) =>
+              setCustomerDataObject({
+                ...customerDataObject,
+                email: updatedEmail,
+              })
+            }
+            name="email"
+            autoCorrect={false}
+            autoComplete="off"
+            value={customerDataObject.email}
+          ></TextInput>
+        </View>
+        <View style={styles.customerDetailLineItemBox}>
+          <AntDesign name="home" style={styles.customerDetailLineItemIcons} />
 
-            <TextInput
-              style={styles.customerUpdateInputBox}
-              onChangeText={(updatedEmail) =>
-                setCustomerDataObject({
-                  ...customerDataObject,
-                  email: updatedEmail,
-                })
-              }
-              name="email"
-              autoCorrect={false}
-              autoComplete="off"
-              value={customerDataObject.email}
-            ></TextInput>
-          </View>
-          <View style={styles.customerDetailLineItemBox}>
-            <AntDesign name="home" style={styles.customerDetailLineItemIcons} />
-
-            <TextInput
-              style={[styles.customerUpdateInputBox, { height: 80 }]}
-              multiline={true}
-              numberofLines={5}
-              onChangeText={(updatedAddress) =>
-                setCustomerDataObject({
-                  ...customerDataObject,
-                  address: updatedAddress,
-                })
-              }
-              name="address"
-              autoCorrect={false}
-              autoComplete="off"
-              value={customerDataObject.address}
-            ></TextInput>
-          </View>
-
-          {/* {Line seperator} */}
-          <View
-            style={{
-              borderBottomColor: "grey",
-              borderBottomWidth: 1,
-              width: "92%",
-              alignSelf: "center",
-            }}
-          />
-          <View style={styles.customerDetailLineItemBox}>
-            <MaterialIcons
-              name="card-membership"
-              style={styles.customerDetailLineItemIcons}
-            />
-            <Text style={styles.customerDetailLineItemContent}>
-              {customerDataObject.membership.toUpperCase()} tier member
-            </Text>
-          </View>
-          <View style={styles.customerDetailLineItemBox}>
-            <MaterialCommunityIcons
-              name="account-clock"
-              style={styles.customerDetailLineItemIcons}
-            />
-            <Text style={styles.customerDetailLineItemContent}>
-              Member since{" "}
-              {customerJoinDateTime.toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </Text>
-          </View>
-          <View style={styles.customerDetailLineItemBox}>
-            <Feather
-              name="dollar-sign"
-              style={styles.customerDetailLineItemIcons}
-            />
-            <Text style={styles.customerDetailLineItemContent}>
-              Total spending so far: ${customerDataObject.totalspent}
-            </Text>
-          </View>
+          <TextInput
+            style={[styles.customerUpdateInputBox, { height: 80 }]}
+            multiline={true}
+            numberofLines={5}
+            onChangeText={(updatedAddress) =>
+              setCustomerDataObject({
+                ...customerDataObject,
+                address: updatedAddress,
+              })
+            }
+            name="address"
+            autoCorrect={false}
+            autoComplete="off"
+            value={customerDataObject.address}
+          ></TextInput>
         </View>
 
-        {/* Update Button */}
-        <Button
-          title="Update Customer Details"
-          onPress={() => handleUpdateCustomerSubmit()}
-        ></Button>
-
-        {/* Delete Button */}
-        <Button
-          title="Delete Customer"
-          color={colors.red}
-          onPress={() => {
-            Alert.alert(
-              "Are your sure?",
-              "Are you sure you want to remove this customer?",
-              [
-                // The "Yes" button
-                {
-                  text: "Yes",
-                  onPress: () => {
-                    handleDeleteCustomerSubmit();
-                    navigation.popToTop();
-                  },
-                },
-                // The "No" button
-                // Does nothing but dismiss the dialog when tapped
-                {
-                  text: "No",
-                },
-              ]
-            );
+        {/* {Line seperator} */}
+        <View
+          style={{
+            borderBottomColor: "grey",
+            borderBottomWidth: 1,
+            width: "92%",
+            alignSelf: "center",
           }}
-        ></Button>
-      </ScrollView>
-    );
+        />
+        <View style={styles.customerDetailLineItemBox}>
+          <MaterialIcons
+            name="card-membership"
+            style={styles.customerDetailLineItemIcons}
+          />
+          <Text style={styles.customerDetailLineItemContent}>
+            {customerDataObject.membership.toUpperCase()} tier member
+          </Text>
+        </View>
+        <View style={styles.customerDetailLineItemBox}>
+          <MaterialCommunityIcons
+            name="account-clock"
+            style={styles.customerDetailLineItemIcons}
+          />
+          <Text style={styles.customerDetailLineItemContent}>
+            Member since{" "}
+            {customerJoinDateTime.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </Text>
+        </View>
+        <View style={styles.customerDetailLineItemBox}>
+          <Feather
+            name="dollar-sign"
+            style={styles.customerDetailLineItemIcons}
+          />
+          <Text style={styles.customerDetailLineItemContent}>
+            Total spending so far: ${customerDataObject.totalspent}
+          </Text>
+        </View>
+      </View>
+
+      {/* Update Button */}
+      <Button
+        title="Update Customer Details"
+        onPress={() => handleUpdateCustomerSubmit()}
+      ></Button>
+
+      {/* Delete Button */}
+      <Button
+        title="Delete Customer"
+        color={colors.red}
+        onPress={() => {
+          Alert.alert(
+            "Are your sure?",
+            "Are you sure you want to remove this customer?",
+            [
+              // The "Yes" button
+              {
+                text: "Yes",
+                onPress: () => {
+                  handleDeleteCustomerSubmit();
+                  navigation.popToTop();
+                },
+              },
+              // The "No" button
+              // Does nothing but dismiss the dialog when tapped
+              {
+                text: "No",
+              },
+            ]
+          );
+        }}
+      ></Button>
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({

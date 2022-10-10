@@ -8,9 +8,9 @@ import {
   Dimensions,
   Linking,
 } from "react-native";
-import AppLoading from "expo-app-loading";
 import colors from "../../assets/colors/colors";
 import { DataTable } from "react-native-paper";
+import * as SplashScreen from "expo-splash-screen";
 
 import Feather from "react-native-vector-icons/Feather";
 import { useFonts } from "expo-font";
@@ -28,6 +28,9 @@ import {
 import SearchBar from "../components/SearchBar";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
 const HomeScreen = ({ navigation }) => {
   /* Set up state for search term */
   const [term, setTerm] = useState("");
@@ -35,14 +38,6 @@ const HomeScreen = ({ navigation }) => {
   if (Platform.OS == "ios") {
     StatusBar.setBarStyle("light-content", true);
   }
-
-  {
-    /* load custom fonts */
-  }
-  let [fontsLoaded] = useFonts({
-    Bodoni: require("../../assets/fonts/Bodoni.ttf"),
-    "Bodoni-bold": require("../../assets/fonts/Bodoni-bold.ttf"),
-  });
 
   const greetingOfTheDay = () => {
     const greeting = "";
@@ -54,91 +49,62 @@ const HomeScreen = ({ navigation }) => {
     } else return "Good Morning";
   };
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  } else
-    return (
-      // Overall Container Wrapper
-      <ScrollView stickyHeaderIndices={[0]} bounces={false} style={container}>
-        {/* Header */}
-        <View style={headerWithSearch}>
-          <View style={headerContainer}>
-            <HeaderText text={greetingOfTheDay()} />
-          </View>
-
-          {/* Search */}
-          <SearchBar
-            term={term}
-            onTermChange={(newTerm) => {
-              setTerm(newTerm);
-            }}
-          />
+  return (
+    // Overall Container Wrapper
+    <ScrollView stickyHeaderIndices={[0]} bounces={false} style={container}>
+      {/* Header */}
+      <View style={headerWithSearch}>
+        <View style={headerContainer}>
+          <HeaderText text={greetingOfTheDay()} />
         </View>
 
-        {/* Content Body */}
+        {/* Search */}
+        <SearchBar
+          term={term}
+          onTermChange={(newTerm) => {
+            setTerm(newTerm);
+          }}
+        />
+      </View>
 
-        {/* Incentive cards */}
-        <View>
-          <LinearGradient
-            colors={[colors.theme, "#3b5998", "#192f6a"]}
-            style={styles.incentiveCard}
-          >
-            <View style={{ flexDirection: "row" }}>
-              <Feather
-                name="gift"
-                style={{ fontSize: 20, color: colors.yellow }}
-              />
-              <Text style={styles.incentiveCardTitle}>
-                Incentive for the month of November
-              </Text>
-            </View>
-            <Text style={styles.incentiveCardContent}>
-              With every $5,000 made in sales, get 5% extra bonus commission
+      {/* Content Body */}
+
+      {/* Incentive cards */}
+      <View>
+        <LinearGradient
+          colors={[colors.theme, "#3b5998", "#192f6a"]}
+          style={styles.incentiveCard}
+        >
+          <View style={{ flexDirection: "row" }}>
+            <Feather
+              name="gift"
+              style={{ fontSize: 20, color: colors.yellow }}
+            />
+            <Text style={styles.incentiveCardTitle}>
+              Incentive for the month of November
             </Text>
-          </LinearGradient>
-        </View>
-
-        {/* Dashboard cards */}
-        <View style={sectionSubHeadingBox}>
-          <Text style={sectionSubHeadingText}>
-            Eureka Dashboard - This month so far
+          </View>
+          <Text style={styles.incentiveCardContent}>
+            With every $5,000 made in sales, get 5% extra bonus commission
           </Text>
-        </View>
+        </LinearGradient>
+      </View>
 
-        <View style={styles.dashboardCardItemContainer}>
-          <TouchableOpacity
-            onPress={() =>
-              Linking.openURL("slack://channel?team=T01GST6QY0G&id=C037USX16TH")
-            }
-          >
-            <View style={styles.dashboardCardItem}>
-              <Text style={styles.dashboardCardTitle}>Total Sales Made</Text>
-              <View
-                style={{
-                  borderBottomColor: colors.yellow,
-                  borderBottomWidth: 2,
-                  width: "92%",
-                  alignSelf: "center",
-                }}
-              />
-              <View>
-                <Text style={styles.dashboardCardDetails}>$35,780</Text>
-              </View>
-              <View>
-                <Text
-                  style={[
-                    styles.dashboardCardSubDetails,
-                    { color: colors.green },
-                  ]}
-                >
-                  +8% from last month
-                </Text>
-              </View>
-            </View>
-          </TouchableOpacity>
+      {/* Dashboard cards */}
+      <View style={sectionSubHeadingBox}>
+        <Text style={sectionSubHeadingText}>
+          Eureka Dashboard - This month so far
+        </Text>
+      </View>
 
+      <View style={styles.dashboardCardItemContainer}>
+        <TouchableOpacity
+          onPress={() =>
+            Linking.openURL("slack://channel?team=T01GST6QY0G&id=C037USX16TH")
+          }
+        >
           <View style={styles.dashboardCardItem}>
-            <Text style={styles.dashboardCardTitle}>Target Percentage</Text>
+            <Text style={styles.dashboardCardTitle}>Total Sales Made</Text>
             <View
               style={{
                 borderBottomColor: colors.yellow,
@@ -148,85 +114,97 @@ const HomeScreen = ({ navigation }) => {
               }}
             />
             <View>
-              <Text style={styles.dashboardCardDetails}>95%</Text>
+              <Text style={styles.dashboardCardDetails}>$35,780</Text>
             </View>
             <View>
-              <Text style={[styles.dashboardCardSubDetails]}>
-                5% more to go
+              <Text
+                style={[
+                  styles.dashboardCardSubDetails,
+                  { color: colors.green },
+                ]}
+              >
+                +8% from last month
               </Text>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
 
-        {/* Top performers */}
-        {/* https://callstack.github.io/react-native-paper/data-table.html */}
-        <DataTable style={styles.topPerformersTable}>
-          <DataTable.Header>
-            <DataTable.Title
+        <View style={styles.dashboardCardItem}>
+          <Text style={styles.dashboardCardTitle}>Target Percentage</Text>
+          <View
+            style={{
+              borderBottomColor: colors.yellow,
+              borderBottomWidth: 2,
+              width: "92%",
+              alignSelf: "center",
+            }}
+          />
+          <View>
+            <Text style={styles.dashboardCardDetails}>95%</Text>
+          </View>
+          <View>
+            <Text style={[styles.dashboardCardSubDetails]}>5% more to go</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Top performers */}
+      {/* https://callstack.github.io/react-native-paper/data-table.html */}
+      <DataTable style={styles.topPerformersTable}>
+        <DataTable.Header>
+          <DataTable.Title
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              borderBottomColor: colors.yellow,
+              borderBottomWidth: 3,
+            }}
+          >
+            <Text
               style={{
-                flex: 1,
-                justifyContent: "center",
-                borderBottomColor: colors.yellow,
-                borderBottomWidth: 3,
+                fontSize: 15,
+                alignContent: "center",
+                fontWeight: "bold",
+                color: colors.black,
               }}
             >
-              <Text
-                style={{
-                  fontSize: 15,
-                  alignContent: "center",
-                  fontWeight: "bold",
-                  color: colors.black,
-                }}
-              >
-                Top Contributors
-              </Text>
-            </DataTable.Title>
-          </DataTable.Header>
+              Top Contributors
+            </Text>
+          </DataTable.Title>
+        </DataTable.Header>
 
-          <DataTable.Row>
-            <DataTable.Cell style={styles.columnOne}>1.</DataTable.Cell>
-            <DataTable.Cell style={styles.columnTwo}>Li Xinyi</DataTable.Cell>
-            <DataTable.Cell style={styles.columnThree}>
-              $3,430.70
-            </DataTable.Cell>
-          </DataTable.Row>
+        <DataTable.Row>
+          <DataTable.Cell style={styles.columnOne}>1.</DataTable.Cell>
+          <DataTable.Cell style={styles.columnTwo}>Li Xinyi</DataTable.Cell>
+          <DataTable.Cell style={styles.columnThree}>$3,430.70</DataTable.Cell>
+        </DataTable.Row>
 
-          <DataTable.Row style={{ backgroundColor: "#CBC3E3" }}>
-            <DataTable.Cell style={styles.columnOne}>2.</DataTable.Cell>
-            <DataTable.Cell style={styles.columnTwo}>Sarah Tan</DataTable.Cell>
-            <DataTable.Cell style={styles.columnThree}>
-              $3,308.10
-            </DataTable.Cell>
-          </DataTable.Row>
+        <DataTable.Row style={{ backgroundColor: "#CBC3E3" }}>
+          <DataTable.Cell style={styles.columnOne}>2.</DataTable.Cell>
+          <DataTable.Cell style={styles.columnTwo}>Sarah Tan</DataTable.Cell>
+          <DataTable.Cell style={styles.columnThree}>$3,308.10</DataTable.Cell>
+        </DataTable.Row>
 
-          <DataTable.Row>
-            <DataTable.Cell style={styles.columnOne}>3.</DataTable.Cell>
-            <DataTable.Cell style={styles.columnTwo}>Sam Man</DataTable.Cell>
-            <DataTable.Cell style={styles.columnThree}>
-              $2,908.10
-            </DataTable.Cell>
-          </DataTable.Row>
+        <DataTable.Row>
+          <DataTable.Cell style={styles.columnOne}>3.</DataTable.Cell>
+          <DataTable.Cell style={styles.columnTwo}>Sam Man</DataTable.Cell>
+          <DataTable.Cell style={styles.columnThree}>$2,908.10</DataTable.Cell>
+        </DataTable.Row>
 
-          <DataTable.Row>
-            <DataTable.Cell style={styles.columnOne}>4.</DataTable.Cell>
-            <DataTable.Cell style={styles.columnTwo}>Ji Soo Kim</DataTable.Cell>
-            <DataTable.Cell style={styles.columnThree}>
-              $2,108.10
-            </DataTable.Cell>
-          </DataTable.Row>
+        <DataTable.Row>
+          <DataTable.Cell style={styles.columnOne}>4.</DataTable.Cell>
+          <DataTable.Cell style={styles.columnTwo}>Ji Soo Kim</DataTable.Cell>
+          <DataTable.Cell style={styles.columnThree}>$2,108.10</DataTable.Cell>
+        </DataTable.Row>
 
-          <DataTable.Row>
-            <DataTable.Cell style={styles.columnOne}>5.</DataTable.Cell>
-            <DataTable.Cell style={styles.columnTwo}>
-              Tan Kah Kee
-            </DataTable.Cell>
-            <DataTable.Cell style={styles.columnThree}>
-              $2,008.10
-            </DataTable.Cell>
-          </DataTable.Row>
-        </DataTable>
-      </ScrollView>
-    );
+        <DataTable.Row>
+          <DataTable.Cell style={styles.columnOne}>5.</DataTable.Cell>
+          <DataTable.Cell style={styles.columnTwo}>Tan Kah Kee</DataTable.Cell>
+          <DataTable.Cell style={styles.columnThree}>$2,008.10</DataTable.Cell>
+        </DataTable.Row>
+      </DataTable>
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({

@@ -8,7 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
 import colors from "../../assets/colors/colors";
 
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -32,6 +32,9 @@ import {
 import HeaderText from "../components/HeaderText";
 import SearchBar from "../components/SearchBar";
 
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
 /* Actual Customer Detail Screen */
 
 const MeScreen = ({ route, navigation }) => {
@@ -42,138 +45,121 @@ const MeScreen = ({ route, navigation }) => {
     StatusBar.setBarStyle("light-content", true);
   }
 
-  {
-    /* load custom fonts */
-  }
-  let [fontsLoaded] = useFonts({
-    Bodoni: require("../../assets/fonts/Bodoni.ttf"),
-    BodoniBold: require("../../assets/fonts/Bodoni-bold.ttf"),
-  });
-
   // page is weekly, monthly, yearly
   const [page, setPage] = useState("weekly");
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  } else
-    return (
-      // Overall Container Wrapper
-      <ScrollView
-        style={container}
-        showsVerticalScrollIndicator={false}
-        stickyHeaderIndices={[0]}
-        bounces={false}
+  return (
+    // Overall Container Wrapper
+    <ScrollView
+      style={container}
+      showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={[0]}
+      bounces={false}
+    >
+      {/* Header */}
+      <View style={headerWithSearch}>
+        <View style={headerContainer}>
+          <HeaderText text="Sarah Tan" />
+        </View>
+
+        {/* Search */}
+        <SearchBar
+          term={term}
+          onTermChange={(newTerm) => {
+            setTerm(newTerm);
+          }}
+        />
+      </View>
+
+      {/* Content Body */}
+      <View style={styles.agentSummaryOverallBox}>
+        <View style={styles.agentSummaryBoxRow}>
+          <View>
+            <View style={styles.agentSummaryBoxTitleBox}>
+              <Text style={styles.agentSummaryBoxTitle}>Team & Slack</Text>
+              <AntDesign name="infocirlceo" style={styles.infoIcon} />
+            </View>
+            <Text style={styles.agentSummaryBoxContent}>Orchard Ion</Text>
+          </View>
+          <View style={styles.verticleLine}></View>
+          <View>
+            <View style={styles.agentSummaryBoxTitleBox}>
+              <Text style={styles.agentSummaryBoxTitle}>Service Duration</Text>
+              <AntDesign name="infocirlceo" style={styles.infoIcon} />
+            </View>
+            <Text style={styles.agentSummaryBoxContent}>3 years, 8 months</Text>
+          </View>
+        </View>
+
+        <View style={styles.horizontalLine} />
+
+        <View style={styles.agentSummaryBoxRow}>
+          <View>
+            <View style={styles.agentSummaryBoxTitleBox}>
+              <Text style={styles.agentSummaryBoxTitle}>Customers Served</Text>
+              <AntDesign name="infocirlceo" style={styles.infoIcon} />
+            </View>
+            <Text style={styles.agentSummaryBoxContent}>4,239</Text>
+          </View>
+          <View style={styles.verticleLine}></View>
+          <View>
+            <View style={styles.agentSummaryBoxTitleBox}>
+              <Text style={styles.agentSummaryBoxTitle}>Total Sales</Text>
+              <AntDesign name="infocirlceo" style={styles.infoIcon} />
+            </View>
+            <Text style={styles.agentSummaryBoxContent}>S$ 58,384</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* View for Recommendation and Statistics buttons */}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginTop: 15,
+        }}
       >
-        {/* Header */}
-        <View style={headerWithSearch}>
-          <View style={headerContainer}>
-            <HeaderText text="Sarah Tan" />
-          </View>
-
-          {/* Search */}
-          <SearchBar
-            term={term}
-            onTermChange={(newTerm) => {
-              setTerm(newTerm);
-            }}
-          />
-        </View>
-
-        {/* Content Body */}
-        <View style={styles.agentSummaryOverallBox}>
-          <View style={styles.agentSummaryBoxRow}>
-            <View>
-              <View style={styles.agentSummaryBoxTitleBox}>
-                <Text style={styles.agentSummaryBoxTitle}>Team & Slack</Text>
-                <AntDesign name="infocirlceo" style={styles.infoIcon} />
-              </View>
-              <Text style={styles.agentSummaryBoxContent}>Orchard Ion</Text>
-            </View>
-            <View style={styles.verticleLine}></View>
-            <View>
-              <View style={styles.agentSummaryBoxTitleBox}>
-                <Text style={styles.agentSummaryBoxTitle}>
-                  Service Duration
-                </Text>
-                <AntDesign name="infocirlceo" style={styles.infoIcon} />
-              </View>
-              <Text style={styles.agentSummaryBoxContent}>
-                3 years, 8 months
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.horizontalLine} />
-
-          <View style={styles.agentSummaryBoxRow}>
-            <View>
-              <View style={styles.agentSummaryBoxTitleBox}>
-                <Text style={styles.agentSummaryBoxTitle}>
-                  Customers Served
-                </Text>
-                <AntDesign name="infocirlceo" style={styles.infoIcon} />
-              </View>
-              <Text style={styles.agentSummaryBoxContent}>4,239</Text>
-            </View>
-            <View style={styles.verticleLine}></View>
-            <View>
-              <View style={styles.agentSummaryBoxTitleBox}>
-                <Text style={styles.agentSummaryBoxTitle}>Total Sales</Text>
-                <AntDesign name="infocirlceo" style={styles.infoIcon} />
-              </View>
-              <Text style={styles.agentSummaryBoxContent}>S$ 58,384</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* View for Recommendation and Statistics buttons */}
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: 15,
+        <TouchableOpacity
+          style={[
+            page === "weekly" ? activeSubTabButton : inactiveSubTabButton,
+          ]}
+          onPress={() => {
+            setPage("weekly");
           }}
         >
-          <TouchableOpacity
-            style={[
-              page === "weekly" ? activeSubTabButton : inactiveSubTabButton,
-            ]}
-            onPress={() => {
-              setPage("weekly");
-            }}
-          >
-            <Text style={subTabText}>Weekly</Text>
-          </TouchableOpacity>
+          <Text style={subTabText}>Weekly</Text>
+        </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[
-              page === "monthly" ? activeSubTabButton : inactiveSubTabButton,
-            ]}
-            onPress={() => {
-              setPage("monthly");
-            }}
-          >
-            <Text style={subTabText}>Monthly</Text>
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            page === "monthly" ? activeSubTabButton : inactiveSubTabButton,
+          ]}
+          onPress={() => {
+            setPage("monthly");
+          }}
+        >
+          <Text style={subTabText}>Monthly</Text>
+        </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[
-              page === "yearly" ? activeSubTabButton : inactiveSubTabButton,
-            ]}
-            onPress={() => {
-              setPage("yearly");
-            }}
-          >
-            <Text style={subTabText}>Yearly</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={[
+            page === "yearly" ? activeSubTabButton : inactiveSubTabButton,
+          ]}
+          onPress={() => {
+            setPage("yearly");
+          }}
+        >
+          <Text style={subTabText}>Yearly</Text>
+        </TouchableOpacity>
+      </View>
 
-        {/* Show page based on button pressed and pass down customer prop */}
-        {page === "weekly" && <Weekly />}
-        {page === "monthly" && <Monthly />}
-        {page === "yearly" && <Yearly />}
-      </ScrollView>
-    );
+      {/* Show page based on button pressed and pass down customer prop */}
+      {page === "weekly" && <Weekly />}
+      {page === "monthly" && <Monthly />}
+      {page === "yearly" && <Yearly />}
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({

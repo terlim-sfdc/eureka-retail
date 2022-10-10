@@ -75,22 +75,6 @@ const Recommendations = (props) => {
         </View>
       )}
 
-      {/* <TouchableOpacity
-        onPress={() =>
-          props.navigate("RecommendedItemsCardsScreen", {
-            customerName: props.customer.name,
-          })
-        }
-      >
-        <Surface
-          style={[styles.infoCards, { elevation: 4, marginVertical: 20 }]}
-        >
-          <Text style={{ fontWeight: "bold" }}>
-            Reserve & Locate Products for Customer
-          </Text>
-        </Surface>
-      </TouchableOpacity> */}
-
       <View style={sectionSubHeadingBox}>
         <Text style={sectionSubHeadingText}>Good to let customer know</Text>
       </View>

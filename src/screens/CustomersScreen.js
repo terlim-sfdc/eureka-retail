@@ -139,7 +139,7 @@ const CustomersScreen = ({ navigation }) => {
 
         <TouchableOpacity
           style={styles.actionButton}
-          onPress={() => navigation.navigate("ItemReturnReasonScreen")}
+          // onPress={() => navigation.navigate("ItemReturnReasonScreen")}
         >
           <MaterialCommunityIcons
             name="barcode-scan"

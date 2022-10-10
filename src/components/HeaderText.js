@@ -8,7 +8,7 @@ const HeaderText = (props) => {
       style={{
         fontSize: 30,
         color: colors.white,
-        fontFamily: "Bodoni-bold",
+        fontFamily: "BodoniBold",
       }}
     >
       {props.text}

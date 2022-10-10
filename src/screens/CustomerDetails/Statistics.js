@@ -27,15 +27,6 @@ import {
   surfaceInfoCards,
 } from "../../styles";
 
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from "react-native-chart-kit";
-
 const Statistics = (props) => {
   const screenWidth = Dimensions.get("window").width;
 
@@ -70,17 +61,6 @@ const Statistics = (props) => {
       <Image
         source={require("../../../assets/images/statistics/DonutChart.png")}
         style={{ alignSelf: "center" }}
-      />
-
-      <View style={sectionSubHeadingBox}>
-        <Text style={sectionSubHeadingText}>Spending Trend by Month</Text>
-      </View>
-
-      <BarChart
-        data={data}
-        width={screenWidth}
-        height={220}
-        chartConfig={chartConfig}
       />
 
       <View style={sectionSubHeadingBox}>
