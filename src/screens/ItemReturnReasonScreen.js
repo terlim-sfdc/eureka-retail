@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 10,
     borderRadius: 10,
-    backgroundColor: colors.yellow,
+    backgroundColor: colors.white,
   },
   selectionItem: {
     width: "80%",

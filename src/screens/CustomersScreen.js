@@ -14,6 +14,8 @@ import {
 } from "react-native";
 import axios from "axios";
 
+import NotificationPopup from "react-native-push-notification-popup";
+
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import trendingNowData from "../../data/trendingNowData";
@@ -63,11 +65,27 @@ const CustomersScreen = ({ navigation }) => {
     }
   };
 
+  // show mock up popup from return item receipt processing
+  const showReceiptProcessedPopup = () => {
+    popup.show({
+      onPress: function () {
+        navigation.navigate("ReturnHistoryScreen");
+      },
+      appIconSource: require("../../assets/images/eureka-lightning-logo.png"),
+      appTitle: "Eureka Retail",
+      timeText: "Now",
+      title: "Return Item Receipt Processed Successfully",
+      body: "The returned item Trapeze Heel Slingback Pumps - Chalk (CK1-60920241) has been processed.",
+      slideOutTime: 3000,
+    });
+  };
+
   // load customer data from database
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       fetchCustomers();
     });
+
     return unsubscribe;
   }, [navigation]);
 
@@ -83,12 +101,17 @@ const CustomersScreen = ({ navigation }) => {
   // define the image path for membership tier
   const membershipImage = {
     gold: require("../../assets/images/gold.png"),
-    silver: require("../../assets/images/silver.png"),
     bronze: require("../../assets/images/bronze.png"),
   };
   return (
     // Overall Container Wrapper
     <ScrollView stickyHeaderIndices={[0]} bounces={false} style={container}>
+      <NotificationPopup
+        ref={(ref) => (popup = ref)}
+        shouldChildHandleResponderStart={true}
+        shouldChildHandleResponderMove={true}
+      />
+
       {/* Header */}
       <View style={headerWithSearch}>
         <View style={headerContainer}>
@@ -103,9 +126,7 @@ const CustomersScreen = ({ navigation }) => {
           }}
         />
       </View>
-
       {/* Content Body */}
-
       <TouchableOpacity
         title="Add new customer"
         style={styles.addCustomerButton}
@@ -139,7 +160,7 @@ const CustomersScreen = ({ navigation }) => {
 
         <TouchableOpacity
           style={styles.actionButton}
-          // onPress={() => navigation.navigate("ItemReturnReasonScreen")}
+          onPress={() => navigation.navigate("ItemReturnReasonScreen")}
         >
           <MaterialCommunityIcons
             name="barcode-scan"
@@ -155,7 +176,10 @@ const CustomersScreen = ({ navigation }) => {
 
         <TouchableOpacity
           style={styles.actionButton}
-          onPress={() => navigation.navigate("ReturnHistoryScreen")}
+          // onPress={() => navigation.navigate("ReturnHistoryScreen")}
+          onPress={() => {
+            showReceiptProcessedPopup();
+          }}
         >
           <MaterialCommunityIcons
             name="credit-card-refund"
@@ -169,7 +193,6 @@ const CustomersScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Return History</Text>
         </TouchableOpacity>
       </View>
-
       {/* View of Customer Cards and Potentially Trending Now */}
       <View>
         {/* Customer Cards */}
